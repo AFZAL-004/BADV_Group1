@@ -1,0 +1,38 @@
+Feature,Dtype,Scaled,Leakage_Risk,Source
+Flight_Distance_KM,float64,Yes,None — pre-flight observable,Original
+Aircraft_Capacity,int64,Yes,None — pre-flight observable,Original
+Aircraft_Age_Years,float64,Yes,None — pre-flight observable,Original
+Passengers,float64,Yes,None — pre-flight observable,Original
+Load_Factor,float64,Yes,None — pre-flight observable,Original
+Flight_Hours,float64,Yes,None — pre-flight observable,Original
+Competition_Index,float64,Yes,None — pre-flight observable,Original
+Weather_Disruption,int64,Yes,None — pre-flight observable,Original
+On_Time_Performance,float64,Yes,None — pre-flight observable,Original
+Delay_Minutes,float64,Yes,None — pre-flight observable,Original
+Average_Ticket_Price,float64,Yes,None — pre-flight observable,Original
+Fuel_Price_Per_Liter,float64,Yes,None — pre-flight observable,Original
+Passenger_Satisfaction_Score,float64,Yes,None — pre-flight observable,Original
+Market_Share_Pct,float64,Yes,None — pre-flight observable,Original
+price_per_km,float64,Yes,None — pre-flight observable,Engineered
+delay_flag,int64,No (binary/ordinal/OHE),None — pre-flight observable,Engineered
+flight_month,int32,Yes,None — pre-flight observable,Engineered
+is_weekend,int64,No (binary/ordinal/OHE),None — pre-flight observable,Engineered
+is_narrow_body,int64,No (binary/ordinal/OHE),None — pre-flight observable,Engineered
+Season_Ordinal,int64,No (binary/ordinal/OHE),None — pre-flight observable,Engineered
+Demand_Ordinal,int64,No (binary/ordinal/OHE),None — pre-flight observable,Engineered
+Route_Category_Medium Haul,bool,No (binary/ordinal/OHE),None — pre-flight observable,Original
+Route_Category_Short Haul,bool,No (binary/ordinal/OHE),None — pre-flight observable,Original
+Alliance_OneWorld,bool,No (binary/ordinal/OHE),None — pre-flight observable,Original
+Alliance_SkyTeam,bool,No (binary/ordinal/OHE),None — pre-flight observable,Original
+Alliance_Star Alliance,bool,No (binary/ordinal/OHE),None — pre-flight observable,Original
+origin_region_Europe,bool,No (binary/ordinal/OHE),None — pre-flight observable,Original
+origin_region_Middle_East,bool,No (binary/ordinal/OHE),None — pre-flight observable,Original
+origin_region_North_America,bool,No (binary/ordinal/OHE),None — pre-flight observable,Original
+origin_region_Oceania,bool,No (binary/ordinal/OHE),None — pre-flight observable,Original
+dest_region_Asia,bool,No (binary/ordinal/OHE),None — pre-flight observable,Original
+dest_region_Europe,bool,No (binary/ordinal/OHE),None — pre-flight observable,Original
+dest_region_Middle_East,bool,No (binary/ordinal/OHE),None — pre-flight observable,Original
+dest_region_North_America,bool,No (binary/ordinal/OHE),None — pre-flight observable,Original
+dest_region_Oceania,bool,No (binary/ordinal/OHE),None — pre-flight observable,Original
+dest_region_Other,bool,No (binary/ordinal/OHE),None — pre-flight observable,Original
+dest_region_South_America,bool,No (binary/ordinal/OHE),None — pre-flight observable,Original

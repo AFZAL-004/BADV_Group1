@@ -12,6 +12,7 @@ import matplotlib.patches as mpatches
 import seaborn as sns
 import json
 import os
+import joblib
 from pathlib import Path
 
 # ── Page config ────────────────────────────────────────────────────────────
@@ -99,6 +100,7 @@ with st.sidebar:
             "Model Comparison",
             "Member Deep-Dive",
             "Business Insights",
+            "Profitability Predictor",
         ],
     )
     st.divider()
@@ -108,6 +110,142 @@ with st.sidebar:
 all_results = load_results()
 stats       = load_preprocessing_stats()
 features    = load_feature_names()
+
+
+# ── Real trained-model prediction helpers ─────────────────────────────────
+MODEL_PATHS = {
+    "Random Forest": M_DIRS["Member 1"] / "best_rf_model_m1.pkl",
+    "XGBoost": M_DIRS["Member 2"] / "best_xgb_model_m2.pkl",
+    "SVM RBF": M_DIRS["Member 3"] / "best_svm_model_m3.pkl",
+    "KNN": M_DIRS["Member 4"] / "best_knn_model_m4.pkl",
+    "MLP": M_DIRS["Member 5"] / "best_mlp_model_m5.pkl",
+    "Decision Tree - Member 1": M_DIRS["Member 1"] / "best_dt_model_m1.pkl",
+    "Decision Tree - Member 2": M_DIRS["Member 2"] / "best_dt_model_m2.pkl",
+    "Decision Tree - Member 3": M_DIRS["Member 3"] / "best_dt_model_m3.pkl",
+    "Decision Tree - Member 4": M_DIRS["Member 4"] / "best_dt_model_m4.pkl",
+    "Decision Tree - Member 5": M_DIRS["Member 5"] / "best_dt_model_m5.pkl",
+}
+
+@st.cache_resource
+def load_trained_model(model_name):
+    path = MODEL_PATHS.get(model_name)
+    if path is None or not path.exists():
+        return None, path
+    return joblib.load(path), path
+
+@st.cache_resource
+def load_scaler():
+    path = PROC / "scaler.pkl"
+    if path.exists():
+        return joblib.load(path)
+    return None
+
+@st.cache_data
+def load_training_defaults():
+    """Use training medians as safe defaults for features not entered manually."""
+    path = PROC / "X_train.csv"
+    if path.exists():
+        train_df = pd.read_csv(path)
+        return train_df.median(numeric_only=True).to_dict()
+    return {}
+
+
+def _set_if_exists(row, names, value):
+    for name in names:
+        if name in row.index:
+            row[name] = value
+
+
+def build_prediction_row(feature_names, user_inputs):
+    """
+    Creates one unscaled prediction row using the exact training feature names.
+    Features that are not controlled by the interface are filled with X_train medians.
+    This prevents shape mismatch and keeps the prediction aligned with training.
+    """
+    defaults = load_training_defaults()
+    row = pd.Series({f: float(defaults.get(f, 0.0)) for f in feature_names}, dtype="float64")
+
+    distance = user_inputs["flight_distance_km"]
+    hours = user_inputs["flight_hours"]
+    ticket_price = user_inputs["ticket_price"]
+    passengers = user_inputs["passengers"]
+    capacity = user_inputs["aircraft_capacity"]
+    load_factor = passengers / max(capacity, 1)
+    price_per_km = ticket_price / max(distance, 1)
+    delay_flag = 1 if user_inputs["delay_minutes"] > 30 else 0
+    is_weekend = 1 if user_inputs["departure_day"] in ["Saturday", "Sunday"] else 0
+
+    # Direct numeric features — supports common naming variations safely.
+    _set_if_exists(row, ["Flight_Distance_km", "flight_distance_km", "Distance_km", "Distance"], distance)
+    _set_if_exists(row, ["Flight_Hours", "flight_hours"], hours)
+    _set_if_exists(row, ["Avg_Ticket_Price", "Average_Ticket_Price", "Ticket_Price", "ticket_price"], ticket_price)
+    _set_if_exists(row, ["Passengers", "passengers"], passengers)
+    _set_if_exists(row, ["Aircraft_Capacity", "aircraft_capacity", "Capacity"], capacity)
+    _set_if_exists(row, ["Load_Factor", "load_factor"], load_factor)
+    _set_if_exists(row, ["price_per_km", "Price_per_km", "Price_Per_KM"], price_per_km)
+    _set_if_exists(row, ["Delay_Minutes", "delay_minutes"], user_inputs["delay_minutes"])
+    _set_if_exists(row, ["delay_flag", "Delay_Flag"], delay_flag)
+    _set_if_exists(row, ["Competition_Index", "competition_index"], user_inputs["competition_index"])
+    _set_if_exists(row, ["Aircraft_Age_Years", "aircraft_age_years"], user_inputs["aircraft_age_years"])
+    _set_if_exists(row, ["flight_month", "Flight_Month", "Month"], user_inputs["flight_month"])
+    _set_if_exists(row, ["is_weekend", "Is_Weekend"], is_weekend)
+
+    # Ordinal features based on preprocessing description.
+    season_ord = {"Off-Peak": 0, "Shoulder": 1, "Peak": 2}[user_inputs["season"]]
+    demand_ord = {"Low": 0, "Medium": 1, "High": 2}[user_inputs["demand_level"]]
+    _set_if_exists(row, ["Season_Ordinal", "season_ordinal"], season_ord)
+    _set_if_exists(row, ["Demand_Level_Ordinal", "demand_level_ordinal"], demand_ord)
+
+    # Aircraft body style.
+    _set_if_exists(row, ["is_narrow_body", "Is_Narrow_Body"], 1 if user_inputs["aircraft_type"] == "Narrow-body" else 0)
+
+    # One-hot encoded features. Only sets columns that exist in feature_names.
+    one_hot_values = {
+        f"Season_{user_inputs['season']}": 1,
+        f"Demand_Level_{user_inputs['demand_level']}": 1,
+        f"Route_Category_{user_inputs['route_category']}": 1,
+        f"Alliance_{user_inputs['alliance']}": 1,
+        f"Region_{user_inputs['region']}": 1,
+        f"Aircraft_Type_{user_inputs['aircraft_type']}": 1,
+    }
+    for col, val in one_hot_values.items():
+        if col in row.index:
+            row[col] = val
+
+    return pd.DataFrame([row], columns=feature_names)
+
+
+def predict_with_trained_model(model_name, user_inputs, feature_names):
+    model, model_path = load_trained_model(model_name)
+    scaler = load_scaler()
+
+    if model is None:
+        raise FileNotFoundError(f"Model file not found: {model_path}")
+    if not feature_names:
+        raise ValueError("feature_names.json is missing or empty.")
+
+    X_raw = build_prediction_row(feature_names, user_inputs)
+    X_model = scaler.transform(X_raw) if scaler is not None else X_raw.values
+
+    if hasattr(model, "predict_proba"):
+        probability = float(model.predict_proba(X_model)[0][1])
+    elif hasattr(model, "decision_function"):
+        score = float(model.decision_function(X_model)[0])
+        probability = float(1 / (1 + np.exp(-score)))
+    else:
+        pred = int(model.predict(X_model)[0])
+        probability = float(pred)
+
+    prediction = int(probability >= user_inputs["threshold"])
+    return {
+        "prediction": prediction,
+        "label": "Profitable" if prediction == 1 else "Loss-making",
+        "probability": probability,
+        "threshold": user_inputs["threshold"],
+        "model_path": str(model_path),
+        "input_row": X_raw,
+    }
+
 
 # ═══════════════════════════════════════════════════════════════════════════
 # PAGE 1 — Project Overview
@@ -558,3 +696,143 @@ elif page == "Business Insights":
         dt_ranked = dt_ranked.sort_values("F1_Score", ascending=False).reset_index(drop=True)
         dt_ranked.index += 1
         st.dataframe(dt_ranked, use_container_width=True)
+
+
+# ═══════════════════════════════════════════════════════════════════════════
+# PAGE 6 — Profitability Predictor
+# ═══════════════════════════════════════════════════════════════════════════
+elif page == "Profitability Predictor":
+    st.title("Profitability Prediction Interface")
+    st.subheader("Real trained-model route profitability prediction")
+
+    st.success(
+        "This page now loads the saved trained model files from each member folder and uses "
+        "processed_data/scaler.pkl + feature_names.json to make real predictions."
+    )
+
+    if not features:
+        st.error("feature_names.json was not found or is empty. Please check the processed_data folder.")
+        st.stop()
+
+    available_models = [name for name, path in MODEL_PATHS.items() if path.exists()]
+    missing_models = [name for name, path in MODEL_PATHS.items() if not path.exists()]
+
+    if not available_models:
+        st.error("No trained model .pkl files were found. Please check the Member folders.")
+        st.stop()
+
+    with st.expander("Model artefact status", expanded=False):
+        status_df = pd.DataFrame({
+            "Model": list(MODEL_PATHS.keys()),
+            "File Path": [str(p) for p in MODEL_PATHS.values()],
+            "Found": [p.exists() for p in MODEL_PATHS.values()],
+        })
+        st.dataframe(status_df, use_container_width=True)
+
+    st.markdown("### 1. Select trained model")
+    selected_model = st.selectbox(
+        "Choose model file for prediction",
+        available_models,
+        index=0,
+        help="This loads the actual saved .pkl model from your project folders."
+    )
+
+    threshold = st.slider(
+        "Decision threshold",
+        min_value=0.10,
+        max_value=0.90,
+        value=0.50,
+        step=0.05,
+        help="Probability above this value is classified as Profitable."
+    )
+
+    st.markdown("### 2. Enter route details")
+    col1, col2, col3 = st.columns(3)
+
+    with col1:
+        flight_distance_km = st.number_input("Flight Distance (km)", min_value=100.0, max_value=20000.0, value=1200.0, step=50.0)
+        flight_hours = st.number_input("Flight Hours", min_value=0.5, max_value=20.0, value=2.5, step=0.5)
+        ticket_price = st.number_input("Average Ticket Price (£)", min_value=20.0, max_value=3000.0, value=180.0, step=10.0)
+        passengers = st.number_input("Expected Passengers", min_value=1.0, max_value=700.0, value=150.0, step=5.0)
+
+    with col2:
+        aircraft_capacity = st.number_input("Aircraft Capacity", min_value=20.0, max_value=800.0, value=180.0, step=5.0)
+        aircraft_age_years = st.number_input("Aircraft Age (years)", min_value=0.0, max_value=40.0, value=8.0, step=1.0)
+        competition_index = st.slider("Competition Index", min_value=0.0, max_value=1.0, value=0.35, step=0.05)
+        delay_minutes = st.number_input("Expected / Historical Delay Minutes", min_value=0.0, max_value=300.0, value=20.0, step=5.0)
+
+    with col3:
+        season = st.selectbox("Season", ["Off-Peak", "Shoulder", "Peak"], index=1)
+        demand_level = st.selectbox("Demand Level", ["Low", "Medium", "High"], index=1)
+        route_category = st.selectbox("Route Category", ["Domestic", "Regional", "International", "Long-haul"], index=2)
+        alliance = st.selectbox("Alliance", ["None", "Star Alliance", "Oneworld", "SkyTeam"], index=0)
+        region = st.selectbox("Region", ["Europe", "Asia", "North America", "Middle East", "Africa", "Oceania", "South America"], index=0)
+        aircraft_type = st.selectbox("Aircraft Type", ["Narrow-body", "Wide-body", "Regional Jet"], index=0)
+        flight_month = st.slider("Flight Month", min_value=1, max_value=12, value=7, step=1)
+        departure_day = st.selectbox("Departure Day", ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"], index=4)
+
+    user_inputs = {
+        "flight_distance_km": flight_distance_km,
+        "flight_hours": flight_hours,
+        "ticket_price": ticket_price,
+        "passengers": passengers,
+        "aircraft_capacity": aircraft_capacity,
+        "aircraft_age_years": aircraft_age_years,
+        "competition_index": competition_index,
+        "delay_minutes": delay_minutes,
+        "season": season,
+        "demand_level": demand_level,
+        "route_category": route_category,
+        "alliance": alliance,
+        "region": region,
+        "aircraft_type": aircraft_type,
+        "flight_month": flight_month,
+        "departure_day": departure_day,
+        "threshold": threshold,
+    }
+
+    st.divider()
+
+    if st.button("Predict Profitability", type="primary", use_container_width=True):
+        try:
+            result = predict_with_trained_model(selected_model, user_inputs, features)
+            prob = result["probability"]
+            label = result["label"]
+
+            if label == "Profitable":
+                st.success(f"Prediction: {label}")
+            else:
+                st.error(f"Prediction: {label}")
+
+            st.markdown("### Prediction Result")
+            r1, r2, r3, r4 = st.columns(4)
+            r1.metric("Selected Model", selected_model)
+            r2.metric("Profitability Probability", f"{prob:.2%}")
+            r3.metric("Decision Threshold", f"{threshold:.2f}")
+            r4.metric("Predicted Class", label)
+
+            load_factor = passengers / max(aircraft_capacity, 1)
+            price_per_km = ticket_price / max(flight_distance_km, 1)
+            estimated_revenue = ticket_price * passengers
+
+            st.markdown("### Route Input Summary")
+            s1, s2, s3, s4 = st.columns(4)
+            s1.metric("Load Factor", f"{load_factor:.2%}")
+            s2.metric("Price per km", f"£{price_per_km:.2f}")
+            s3.metric("Estimated Revenue", f"£{estimated_revenue:,.0f}")
+            s4.metric("Competition Index", f"{competition_index:.2f}")
+
+            st.markdown("### Model File Used")
+            st.code(result["model_path"])
+
+            with st.expander("View exact feature row sent to the model", expanded=False):
+                st.dataframe(result["input_row"].T.rename(columns={0: "Input Value"}), use_container_width=True)
+
+            st.caption(
+                "This prediction uses the saved trained model artefact. Features not entered manually are filled using "
+                "training-set median values from processed_data/X_train.csv to keep the model input shape correct."
+            )
+
+        except Exception as e:
+            st.error("Prediction failed. Please check that the selected model, scaler.pkl, feature_names.json, and X_train.csv match the training pipeline.")
+            st.exception(e)

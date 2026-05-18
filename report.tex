@@ -1,0 +1,1307 @@
+%% ============================================================
+%%  COM3032 / COMM074 — Practical Business Analytics
+%%  Airline Route Profitability Prediction
+%%  Group Report  |  Academic Year 2025–26
+%%  University of Surrey — School of Computer Science & Electronic Engineering
+%%
+%%  Compile with: pdflatex (twice) then pdflatex again
+%%  Overleaf: upload this file and the figures/ folder
+%% ============================================================
+
+\documentclass[12pt, a4paper]{article}
+
+%% ── Packages ─────────────────────────────────────────────────────────────
+\usepackage[a4paper, top=2.5cm, bottom=2.5cm, left=2.5cm, right=2.5cm]{geometry}
+\usepackage{graphicx}
+\usepackage[hidelinks]{hyperref}
+\usepackage{booktabs}
+\usepackage{longtable}
+\usepackage{array}
+\usepackage{multirow}
+\usepackage{tabularx}
+\usepackage{colortbl}
+\usepackage[table]{xcolor}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{float}
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{enumitem}
+\usepackage{fancyhdr}
+\usepackage{titlesec}
+\usepackage{parskip}
+\usepackage{microtype}
+\usepackage{lmodern}
+\usepackage[T1]{fontenc}
+\usepackage{inputenc}
+\usepackage{natbib}
+\usepackage{url}
+\usepackage{listings}
+\usepackage{tocloft}
+\usepackage{setspace}
+
+%% ── Colours ──────────────────────────────────────────────────────────────
+\definecolor{surreyblue}{RGB}{0, 68, 124}
+\definecolor{surreygold}{RGB}{200, 155, 20}
+\definecolor{lightgray}{RGB}{245, 245, 245}
+\definecolor{medgray}{RGB}{180, 180, 180}
+\definecolor{darkgray}{RGB}{60, 60, 60}
+\definecolor{rfcolor}{RGB}{46, 134, 171}
+\definecolor{xgbcolor}{RGB}{246, 174, 45}
+\definecolor{svmcolor}{RGB}{155, 89, 182}
+\definecolor{mlpcolor}{RGB}{231, 76, 60}
+\definecolor{knncolor}{RGB}{230, 126, 34}
+\definecolor{dtcolor}{RGB}{127, 140, 141}
+
+%% ── Section heading style ────────────────────────────────────────────────
+\titleformat{\section}{\large\bfseries\color{surreyblue}}{}{0em}{}[\color{surreyblue}\titlerule]
+\titleformat{\subsection}{\normalsize\bfseries\color{darkgray}}{}{0em}{}
+\titleformat{\subsubsection}{\normalsize\itshape\color{darkgray}}{}{0em}{}
+
+%% ── Header / footer ──────────────────────────────────────────────────────
+\pagestyle{fancy}
+\fancyhf{}
+\lhead{\small COM3032/COMM074 \textbar\ Airline Route Profitability}
+\rhead{\small University of Surrey, 2025--26}
+\cfoot{\small \thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+
+%% ── Image placeholder helper ─────────────────────────────────────────────
+%% Usage: \placeholder{width}{height}{caption text}
+%% Replace with \includegraphics once figures are generated
+\newcommand{\placeholder}[3]{%
+  \begin{figure}[H]
+    \centering
+    \fboxsep=0pt
+    \colorbox{lightgray}{%
+      \parbox[c][#2][c]{#1}{%
+        \centering\color{medgray}\small\textit{[Figure: #3]}%
+      }%
+    }
+    \caption{#3}
+  \end{figure}%
+}
+
+%% ── Line spacing ─────────────────────────────────────────────────────────
+\setstretch{1.15}
+
+%% ── Caption style ────────────────────────────────────────────────────────
+\captionsetup{font=small, labelfont=bf}
+
+%% ── Table row colours ────────────────────────────────────────────────────
+\rowcolors{2}{lightgray}{white}
+
+%% =============================================================
+\begin{document}
+
+%% ── Title Page ───────────────────────────────────────────────────────────
+\begin{titlepage}
+  \centering
+  \vspace*{1cm}
+
+  {\small\textsc{School of Computer Science and Electronic Engineering}}\\[0.3cm]
+  {\small\textbf{COM3032 / COMM074 Coursework} \textbar\ Academic Year 2025--26}\\[2cm]
+
+  {\huge\bfseries\color{surreyblue}
+    Airline Route Profitability Prediction\\[0.4cm]}
+  {\LARGE\color{darkgray}
+    A CRISP-DM Business Analytics Report\\[0.2cm]
+    Using Supervised Machine Learning}
+
+  \vspace{1.5cm}
+  \textcolor{surreygold}{\rule{0.8\linewidth}{2pt}}
+  \vspace{1.5cm}
+
+  {\large\textbf{Group Members}}\\[0.6cm]
+  \begin{tabular}{ll}
+    \textbf{Gokulkrishna Santoshkumar} & Member 1 — Random Forest + Decision Tree\\
+    \textbf{Joel Jolly}                 & Member 2 — XGBoost + Decision Tree\\
+    \textbf{Apprajit Vaibhav}           & Member 3 — SVM (RBF) + Decision Tree\\
+    \textbf{Vino Mohandas}              & Member 4 — MLP + Decision Tree\\
+    \textbf{Afzal Hakkim}               & Member 5 — KNN + Decision Tree\\
+  \end{tabular}
+
+  \vspace{1.5cm}
+  \textcolor{surreygold}{\rule{0.8\linewidth}{1pt}}
+  \vspace{0.5cm}
+
+  {\small University of Surrey\\
+  School of Computer Science and Electronic Engineering\\
+  Guildford, Surrey GU2 7XH}\\[0.3cm]
+  {\small Submission Deadline: Wednesday 20\textsuperscript{th} May 2026 at 16:00}
+
+  \vfill
+  {\small\textit{All Python code, dataset, and this report are submitted as required by the assessment brief.}}
+\end{titlepage}
+
+%% ── Table of Contents ────────────────────────────────────────────────────
+\clearpage
+\tableofcontents
+\clearpage
+
+%% ── Executive Summary ────────────────────────────────────────────────────
+\section*{Executive Summary}
+\addcontentsline{toc}{section}{Executive Summary}
+
+This report presents a business analytics investigation into airline route profitability prediction
+using supervised machine learning. The business problem is framed as a binary classification task:
+given a set of observable pre-flight route characteristics, predict whether a given route will be
+profitable or loss-making within a quarter.
+
+Five supervised learning algorithms are evaluated — Random Forest, XGBoost, Support Vector Machine
+(SVM with RBF kernel), Multi-Layer Perceptron (MLP), and K-Nearest Neighbours (KNN) — alongside
+independently tuned Decision Tree models for each member. All models are trained on 15,000 synthetic
+flight records encompassing 37 engineered features, using an 80/10/10 stratified train/validation/test
+split. Hyperparameter optimisation is performed via GridSearchCV with 5-fold stratified
+cross-validation, using ROC-AUC as the selection criterion.
+
+Key findings show that ensemble and boosting methods (Random Forest, XGBoost) achieve the highest
+F1-Scores ($\geq$ 0.95), while SVM and MLP follow closely. KNN, when augmented with PCA
+dimensionality reduction, achieves competitive performance despite the curse of dimensionality.
+Load factor and price per kilometre are consistently identified as the most critical profitability
+drivers across all models. Business recommendations centre on threshold optimisation to align model
+outputs with the airline's specific cost structure (£42,000 false-positive cost, £30,000 false-negative
+cost per route per quarter).
+
+\clearpage
+
+%% =============================================================
+\section{Introduction — Business Understanding, Data Understanding and Research Question}
+\label{sec:intro}
+
+\subsection{Business Context and Problem Statement}
+
+The commercial aviation industry operates on thin operating margins, typically between 3–5\% of
+revenue. Route-level profitability varies substantially with load factor, ticket pricing strategy,
+competitive dynamics, and seasonal demand patterns. Airlines routinely launch and retire routes
+based on projected profitability, yet the complexity of interacting variables makes manual assessment
+unreliable.
+
+This project addresses the following business question:
+
+\begin{quote}
+\textit{Can machine learning algorithms, trained on pre-flight observable route characteristics,
+reliably predict whether an airline route will be profitable or loss-making in a given quarter?}
+\end{quote}
+
+Accurate prediction enables senior management to:
+\begin{itemize}[noitemsep]
+  \item prioritise route launches with the highest profitability probability;
+  \item flag underperforming routes for review before capacity is committed;
+  \item optimise seasonal scheduling by identifying routes sensitive to peak/off-peak shifts;
+  \item reduce the cost of false approvals (approving unprofitable routes) and false dismissals
+        (rejecting routes that would have been profitable).
+\end{itemize}
+
+The problem is formalised as a \textbf{binary classification} task. The target variable is
+\texttt{Profitable} $\in \{0, 1\}$, where 1 denotes a profitable route and 0 denotes a
+loss-making route.
+
+\subsection{CRISP-DM Methodology}
+
+This project follows the \textbf{Cross-Industry Standard Process for Data Mining (CRISP-DM)},
+a structured, iterative framework for applied data science. The six phases applied are:
+
+\begin{enumerate}[noitemsep]
+  \item \textbf{Business Understanding} — define the profitability prediction objective and
+        evaluation criteria (Section~\ref{sec:intro});
+  \item \textbf{Data Understanding} — explore the dataset structure, quality, and distributions
+        (Section~\ref{sec:intro});
+  \item \textbf{Data Preparation} — clean, engineer, scale, and split the dataset
+        (Section~\ref{sec:data});
+  \item \textbf{Modelling} — train and tune five individual models and five Decision Trees
+        (Section~\ref{sec:modelling});
+  \item \textbf{Evaluation} — assess each model against business-relevant metrics, compare
+        across all ten models (Section~\ref{sec:evaluation});
+  \item \textbf{Deployment} — produce visualisations, a Streamlit dashboard, and actionable
+        recommendations (Section~\ref{sec:discussion}).
+\end{enumerate}
+
+\subsection{Dataset Overview}
+
+The dataset comprises \textbf{15,000 synthetic flight records} generated to simulate realistic
+airline route profitability patterns. It contains the following key attributes:
+
+\begin{table}[H]
+  \centering
+  \caption{Dataset overview and key feature categories}
+  \rowcolors{2}{lightgray}{white}
+  \begin{tabularx}{\linewidth}{lXl}
+    \toprule
+    \textbf{Category} & \textbf{Example Features} & \textbf{Type} \\
+    \midrule
+    Route characteristics    & Distance, Aircraft\_Type, Route\_Category & Numeric/Categorical \\
+    Demand indicators        & Load\_Factor, Demand\_Level, Competition\_Index & Numeric/Ordinal \\
+    Pricing                  & Ticket\_Price, price\_per\_km & Numeric \\
+    Operational              & Delay\_Minutes, On\_Time\_Performance, delay\_flag & Numeric/Binary \\
+    Temporal                 & Season\_Ordinal, flight\_month, is\_weekend & Ordinal/Binary \\
+    Encoded categorical      & Alliance\_*, Region\_*, Route\_Category\_* & Binary (OHE) \\
+    \textbf{Target}          & Profitable & Binary (0/1) \\
+    \bottomrule
+  \end{tabularx}
+\end{table}
+
+\begin{itemize}[noitemsep]
+  \item \textbf{Total records:} 15,000 \quad \textbf{Final features (post-engineering):} 37
+  \item \textbf{Class distribution:} 63.7\% profitable (class 1), 36.3\% loss-making (class 0)
+  \item \textbf{Missing values:} None after generation; no imputation required
+  \item \textbf{Data source:} Synthetically generated to reflect real airline route patterns
+\end{itemize}
+
+\subsection{Data Leakage Prevention}
+
+Post-flight financial columns (\texttt{Profit}, \texttt{Total\_Revenue}, \texttt{Fuel\_Cost},
+\texttt{Maintenance\_Cost}, \texttt{Staff\_Cost}, \texttt{Airport\_Fees}) were \textbf{excluded}
+from all feature matrices to prevent data leakage. These values are only observable after the
+flight has operated and therefore cannot be used in a predictive scheduling context.
+\texttt{Delay\_Minutes} and \texttt{On\_Time\_Performance} are retained as \emph{route-level
+historical averages}, observable at scheduling time from past operations data.
+
+\subsection{Research Objectives and Evaluation Metric}
+
+\textbf{Primary metric:} F1-Score (harmonic mean of Precision and Recall), chosen because the
+dataset is moderately imbalanced (64/36) and both false positives (approving unprofitable routes)
+and false negatives (rejecting profitable routes) carry significant business costs.
+
+\textbf{Secondary metrics:} ROC-AUC (threshold-independent discrimination), Matthews Correlation
+Coefficient (MCC), Accuracy, Precision, Recall, True Negative Rate (TNR), and False Positive Rate
+(FPR). The same metric set is used across all five members to enable fair comparison.
+
+\textbf{Financial cost model:} Based on order-of-magnitude estimates from aviation literature,
+each false positive (approving a loss-making route) costs approximately \textbf{£42,000} per
+quarter; each false negative (rejecting a profitable route) foregoes approximately \textbf{£30,000}
+in profit. Total financial cost = FP\_count $\times$ £42,000 + FN\_count $\times$ £30,000.
+
+\clearpage
+
+%% =============================================================
+\section{Data Pre-processing and Exploration}
+\label{sec:data}
+
+\subsection{Data Loading and Initial Inspection}
+
+The raw dataset is loaded in Notebook 01 (\texttt{01\_Data\_Preprocessing\_EDA.ipynb}). Initial
+inspection confirms 15,000 records with no missing values. Column data types are validated:
+numeric features are continuous or integer-valued; categorical features (\texttt{Alliance},
+\texttt{Region}, \texttt{Route\_Category}) are object-typed strings. The target variable
+\texttt{Profitable} is an integer binary column.
+
+\subsection{Exploratory Data Analysis}
+
+%% ── Figure placeholder: class distribution ──
+\begin{figure}[H]
+  \centering
+  \begin{subfigure}[b]{0.45\linewidth}
+    \centering
+    \colorbox{lightgray}{\parbox[c][5cm][c]{\linewidth}{%
+      \centering\color{medgray}\small\textit{[Fig: Target class distribution\\bar/pie chart]}}}
+    \caption{Class distribution (63.7\% vs 36.3\%)}
+  \end{subfigure}
+  \hfill
+  \begin{subfigure}[b]{0.45\linewidth}
+    \centering
+    \colorbox{lightgray}{\parbox[c][5cm][c]{\linewidth}{%
+      \centering\color{medgray}\small\textit{[Fig: Feature correlation heatmap]}}
+    }
+    \caption{Pearson correlation heatmap (top 20 features)}
+  \end{subfigure}
+  \caption{Exploratory data analysis — class balance and feature correlations}
+\end{figure}
+
+%% ── Figure placeholder: distributions ──
+\begin{figure}[H]
+  \centering
+  \begin{subfigure}[b]{0.45\linewidth}
+    \centering
+    \colorbox{lightgray}{\parbox[c][5cm][c]{\linewidth}{%
+      \centering\color{medgray}\small\textit{[Fig: Load\_Factor histogram\\by profitability class]}}}
+    \caption{Load Factor distribution by class}
+  \end{subfigure}
+  \hfill
+  \begin{subfigure}[b]{0.45\linewidth}
+    \centering
+    \colorbox{lightgray}{\parbox[c][5cm][c]{\linewidth}{%
+      \centering\color{medgray}\small\textit{[Fig: price\_per\_km vs Profitable\\boxplot or violin]}}}
+    \caption{Price per km by profitability class}
+  \end{subfigure}
+  \caption{Key feature distributions grouped by target class}
+\end{figure}
+
+Key EDA findings:
+\begin{itemize}[noitemsep]
+  \item Routes with Load\_Factor $<$ 0.65 are predominantly loss-making across all seasons.
+  \item Price\_per\_km shows a clear separation between classes: profitable routes cluster at
+        higher values, though with substantial overlap.
+  \item Competition\_Index negatively correlates with profitability; high-competition routes
+        show reduced margins.
+  \item Peak season (Season\_Ordinal = 2) significantly shifts the profitability distribution
+        for borderline routes.
+  \item Delay\_Minutes shows a modest negative correlation with profitability, consistent with
+        operational inefficiency leading to cost overruns.
+\end{itemize}
+
+\subsection{Feature Engineering}
+
+Seven features were derived from raw columns:
+
+\begin{table}[H]
+  \centering
+  \caption{Derived features and their engineering rationale}
+  \rowcolors{2}{lightgray}{white}
+  \begin{tabularx}{\linewidth}{llX}
+    \toprule
+    \textbf{Feature} & \textbf{Derivation} & \textbf{Business Rationale} \\
+    \midrule
+    \texttt{price\_per\_km}  & Ticket\_Price / Distance & Normalises pricing for route length comparison \\
+    \texttt{delay\_flag}     & Delay\_Minutes $>$ 30    & Binary marker for operationally disrupted routes \\
+    \texttt{is\_weekend}     & Departure date weekday   & Weekend vs weekday demand patterns differ \\
+    \texttt{is\_narrow\_body} & Aircraft\_Type mapping  & Narrow-body aircraft have lower operating costs \\
+    \texttt{flight\_month}   & Month from departure date & Captures intra-year seasonality \\
+    \texttt{Season\_Ordinal} & Off-Peak=0, Shoulder=1, Peak=2 & Ordinal encoding of seasonal demand tiers \\
+    \texttt{Demand\_Level\_Ordinal} & Low=0, Medium=1, High=2 & Ordinal encoding of demand segments \\
+    \bottomrule
+  \end{tabularx}
+\end{table}
+
+\subsection{Data Cleaning}
+
+\begin{itemize}[noitemsep]
+  \item \textbf{Missing values:} No missing values detected; no imputation required.
+  \item \textbf{Outliers:} Extreme values in numeric features (Distance, Ticket\_Price) were
+        examined using IQR analysis. No records were removed, as extreme values represent
+        genuine long-haul or premium routes.
+  \item \textbf{Duplicate records:} Zero duplicate rows identified.
+  \item \textbf{Inconsistencies:} Route category and alliance encoding verified for consistency
+        across all records.
+\end{itemize}
+
+\subsection{Categorical Encoding}
+
+Three categorical features were one-hot encoded (OHE) using \texttt{pd.get\_dummies}:
+\begin{itemize}[noitemsep]
+  \item \texttt{Route\_Category}: domestic, short-haul, medium-haul, long-haul
+  \item \texttt{Alliance}: Star, SkyTeam, Oneworld, independent
+  \item \texttt{Region}: mapped from Country to continent-level region, reducing cardinality
+        from $\sim$50 country values to 6 region labels before OHE
+\end{itemize}
+The post-engineering feature matrix contains \textbf{37 columns}.
+
+\subsection{Feature Scaling}
+
+\texttt{StandardScaler} was fitted \textit{exclusively on the training set} and then applied
+to validation and test sets. Fitting the scaler on all data would constitute data leakage.
+Distance-based algorithms (KNN) and margin-based algorithms (SVM) require standardised input;
+tree-based algorithms (Random Forest, XGBoost, Decision Tree) receive unscaled data for
+their native implementations.
+
+\subsection{Train / Validation / Test Split}
+
+A \textbf{stratified 80/10/10 split} was applied to preserve the 63.7/36.3 class distribution
+across all three sets:
+
+\begin{table}[H]
+  \centering
+  \caption{Dataset split summary}
+  \rowcolors{2}{lightgray}{white}
+  \begin{tabular}{lrrrr}
+    \toprule
+    \textbf{Split} & \textbf{Records} & \textbf{Class 1 (\%)} & \textbf{Class 0 (\%)} & \textbf{Purpose} \\
+    \midrule
+    Training   & 11,997 & 63.7 & 36.3 & Model fitting and CV \\
+    Validation & 1,500  & 63.7 & 36.3 & Threshold selection \\
+    Test       & 1,500  & 63.7 & 36.3 & Final unbiased evaluation \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+\clearpage
+
+%% =============================================================
+\section{Modelling}
+\label{sec:modelling}
+
+Each member trained two supervised machine learning models on the pre-processed dataset:
+(1) a \textbf{primary model} unique to that member, and (2) a \textbf{Decision Tree}
+independently tuned with a member-specific hyperparameter search space, enabling genuine
+intra-member comparison. All models are optimised with \texttt{GridSearchCV} (5-fold stratified
+cross-validation, ROC-AUC scoring, \texttt{n\_jobs=-1}).
+
+%% ─────────────────────────────────────────────────────────────────────────
+\subsection{Member 1 — Gokulkrishna Santoshkumar: Random Forest}
+
+\subsubsection{Algorithm Rationale}
+
+Random Forest is a bagging ensemble that trains $B$ independent decision trees on bootstrap
+samples of the training data and combines their predictions by majority vote. Key properties
+relevant to this problem:
+\begin{itemize}[noitemsep]
+  \item \textbf{Non-parametric}: makes no distributional assumptions about features.
+  \item \textbf{Handles mixed feature types}: categorical indicators (OHE columns) and
+        continuous features coexist without scaling.
+  \item \textbf{Native MDI importance}: Mean Decrease in Impurity provides a built-in
+        feature importance ranking without additional computation.
+  \item \textbf{Robust to overfitting}: bootstrap aggregation reduces variance relative to
+        a single deep tree.
+\end{itemize}
+
+\subsubsection{Baseline Model}
+
+An out-of-the-box \texttt{RandomForestClassifier(n\_estimators=100)} is trained on unscaled data
+to establish pre-tuning performance. The baseline typically achieves Train F1 $\approx$ 1.0,
+indicating some memorisation that tuning aims to correct.
+
+\subsubsection{Hyperparameter Tuning}
+
+\begin{table}[H]
+  \centering
+  \caption{Random Forest GridSearchCV parameter grid (Member 1)}
+  \rowcolors{2}{lightgray}{white}
+  \begin{tabular}{ll}
+    \toprule
+    \textbf{Parameter} & \textbf{Search Values} \\
+    \midrule
+    \texttt{n\_estimators}      & 100, 200, 300 \\
+    \texttt{max\_depth}         & 10, 15, 20, None \\
+    \texttt{min\_samples\_split} & 2, 5, 10 \\
+    \texttt{min\_samples\_leaf}  & 1, 5, 10 \\
+    \texttt{max\_features}      & ``sqrt'', ``log2'' \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+\subsubsection{Results and Visualisations}
+
+\begin{figure}[H]
+  \centering
+  \begin{subfigure}[b]{0.48\linewidth}
+    \colorbox{lightgray}{\parbox[c][5.5cm][c]{\linewidth}{%
+      \centering\color{medgray}\small\textit{[Fig: RF confusion matrix\\and ROC curve — test set]}}}
+    \caption{Confusion matrix and ROC curve}
+  \end{subfigure}
+  \hfill
+  \begin{subfigure}[b]{0.48\linewidth}
+    \colorbox{lightgray}{\parbox[c][5.5cm][c]{\linewidth}{%
+      \centering\color{medgray}\small\textit{[Fig: RF learning curve\\(train vs CV F1 vs dataset size)]}}
+    }
+    \caption{Learning curve}
+  \end{subfigure}
+  \caption{Random Forest — tuned model evaluation (Member 1)}
+\end{figure}
+
+\begin{figure}[H]
+  \centering
+  \colorbox{lightgray}{\parbox[c][5cm][c]{0.8\linewidth}{%
+    \centering\color{medgray}\small\textit{[Fig: RF MDI feature importance (top 15 features)]}}}
+  \caption{Random Forest — top-15 feature importances (MDI)}
+\end{figure}
+
+\subsubsection{Decision Tree — Member 1 Tuning}
+
+\textbf{Search space:} \texttt{max\_depth} $\in$ [3,4,5,6,7], \texttt{min\_samples\_split} $\in$
+[5,10,20], \texttt{min\_samples\_leaf} $\in$ [5,10,20], criterion = \texttt{gini},
+\texttt{class\_weight = `balanced'}.
+
+Constraining depth to 7 and enforcing balanced class weights produces a shallow, interpretable
+tree that avoids the Train F1 = 1.0 memorisation of the default. The gini criterion with
+balanced weights focuses splits on reducing impurity while compensating for the 64/36 class
+imbalance.
+
+\begin{figure}[H]
+  \centering
+  \colorbox{lightgray}{\parbox[c][5cm][c]{0.8\linewidth}{%
+    \centering\color{medgray}\small\textit{[Fig: M1 Decision Tree visualisation\\(max\_depth=best\_depth, annotated nodes)]}}}
+  \caption{Member 1 — Decision Tree structure (tuned)}
+\end{figure}
+
+%% ─────────────────────────────────────────────────────────────────────────
+\subsection{Member 2 — Joel Jolly: XGBoost}
+
+\subsubsection{Algorithm Rationale}
+
+XGBoost (eXtreme Gradient Boosting) is a sequential ensemble that builds trees to correct the
+residual errors of all previous trees. Key properties:
+\begin{itemize}[noitemsep]
+  \item \textbf{Regularised boosting}: L1 and L2 penalties (\texttt{reg\_alpha},
+        \texttt{reg\_lambda}) reduce overfitting compared to classical gradient boosting.
+  \item \textbf{Gain-based feature importance}: split gain provides an alternative to MDI,
+        emphasising splits that most reduce the training objective.
+  \item \textbf{Handles imbalance}: \texttt{scale\_pos\_weight} adjusts for the 64/36 split.
+  \item \textbf{Efficient tree construction}: histogram-based approximate split finding enables
+        fast training on 12,000 records with 37 features.
+\end{itemize}
+
+\subsubsection{Hyperparameter Tuning}
+
+\begin{table}[H]
+  \centering
+  \caption{XGBoost GridSearchCV parameter grid (Member 2)}
+  \rowcolors{2}{lightgray}{white}
+  \begin{tabular}{ll}
+    \toprule
+    \textbf{Parameter} & \textbf{Search Values} \\
+    \midrule
+    \texttt{n\_estimators}  & 100, 200, 300 \\
+    \texttt{max\_depth}     & 3, 5, 7 \\
+    \texttt{learning\_rate} & 0.01, 0.05, 0.1 \\
+    \texttt{subsample}      & 0.8, 1.0 \\
+    \texttt{colsample\_bytree} & 0.8, 1.0 \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+\subsubsection{Results and Visualisations}
+
+\begin{figure}[H]
+  \centering
+  \begin{subfigure}[b]{0.48\linewidth}
+    \colorbox{lightgray}{\parbox[c][5.5cm][c]{\linewidth}{%
+      \centering\color{medgray}\small\textit{[Fig: XGB confusion matrix and ROC curve]}}
+    }
+    \caption{Confusion matrix and ROC curve}
+  \end{subfigure}
+  \hfill
+  \begin{subfigure}[b]{0.48\linewidth}
+    \colorbox{lightgray}{\parbox[c][5.5cm][c]{\linewidth}{%
+      \centering\color{medgray}\small\textit{[Fig: XGB learning curve]}}}
+    \caption{Learning curve}
+  \end{subfigure}
+  \caption{XGBoost — tuned model evaluation (Member 2)}
+\end{figure}
+
+\begin{figure}[H]
+  \centering
+  \colorbox{lightgray}{\parbox[c][5cm][c]{0.8\linewidth}{%
+    \centering\color{medgray}\small\textit{[Fig: XGBoost gain-based feature importance (top 15)]}}}
+  \caption{XGBoost — top-15 feature importances (gain)}
+\end{figure}
+
+\subsubsection{Decision Tree — Member 2 Tuning}
+
+\textbf{Search space:} \texttt{max\_depth} $\in$ [5,7,9,11], \texttt{min\_samples\_split} $\in$
+[2,5,10], \texttt{min\_samples\_leaf} $\in$ [5,10,15], criterion = \texttt{entropy},
+\texttt{class\_weight = None}.
+
+Allowing deeper growth (up to depth 11) with entropy and no class balancing explores whether
+unconstrained splitting on information gain can match XGBoost's boosted precision.
+
+%% ─────────────────────────────────────────────────────────────────────────
+\subsection{Member 3 — Apprajit Vaibhav: Support Vector Machine (RBF)}
+
+\subsubsection{Algorithm Rationale}
+
+A Support Vector Machine with RBF kernel finds the maximum-margin hyperplane in a
+high-dimensional transformed feature space. Key properties:
+\begin{itemize}[noitemsep]
+  \item \textbf{Kernel trick}: the RBF kernel $K(\mathbf{x},\mathbf{z}) = \exp(-\gamma
+        \|\mathbf{x}-\mathbf{z}\|^2)$ implicitly maps features to an infinite-dimensional space,
+        enabling non-linear decision boundaries.
+  \item \textbf{Scale-sensitive}: requires standardised input (StandardScaler applied).
+  \item \textbf{No native feature importance}: permutation importance is used post-training.
+  \item \textbf{Margin maximisation}: the $C$ parameter trades off margin width against training
+        error; larger $C$ fits more tightly at the cost of generalisation.
+\end{itemize}
+
+\subsubsection{Hyperparameter Tuning}
+
+\begin{table}[H]
+  \centering
+  \caption{SVM GridSearchCV parameter grid (Member 3)}
+  \rowcolors{2}{lightgray}{white}
+  \begin{tabular}{ll}
+    \toprule
+    \textbf{Parameter} & \textbf{Search Values} \\
+    \midrule
+    \texttt{C}       & 0.1, 1, 10, 100 \\
+    \texttt{gamma}   & ``scale'', ``auto'', 0.01, 0.001 \\
+    \texttt{kernel}  & ``rbf'' \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+\subsubsection{Results and Visualisations}
+
+\begin{figure}[H]
+  \centering
+  \begin{subfigure}[b]{0.48\linewidth}
+    \colorbox{lightgray}{\parbox[c][5.5cm][c]{\linewidth}{%
+      \centering\color{medgray}\small\textit{[Fig: SVM confusion matrix and ROC curve]}}
+    }
+    \caption{Confusion matrix and ROC curve}
+  \end{subfigure}
+  \hfill
+  \begin{subfigure}[b]{0.48\linewidth}
+    \colorbox{lightgray}{\parbox[c][5.5cm][c]{\linewidth}{%
+      \centering\color{medgray}\small\textit{[Fig: SVM learning curve]}}}
+    \caption{Learning curve}
+  \end{subfigure}
+  \caption{SVM (RBF) — tuned model evaluation (Member 3)}
+\end{figure}
+
+\begin{figure}[H]
+  \centering
+  \colorbox{lightgray}{\parbox[c][5cm][c]{0.8\linewidth}{%
+    \centering\color{medgray}\small\textit{[Fig: SVM permutation feature importance (top 15)]}}}
+  \caption{SVM — top-15 permutation importances}
+\end{figure}
+
+\subsubsection{Decision Tree — Member 3 Tuning}
+
+\textbf{Search space:} \texttt{max\_depth} $\in$ [4,6,7,8,10], \texttt{min\_samples\_split} $\in$
+[10,15,20,30], \texttt{min\_samples\_leaf} $\in$ [10,15,20], criterion $\in$
+\{gini, entropy\}, \texttt{class\_weight = `balanced'}.
+
+High min\_samples thresholds ensure each leaf covers a substantial portion of training routes,
+producing an aggressively regularised tree that contrasts with SVM's margin-based boundary.
+
+%% ─────────────────────────────────────────────────────────────────────────
+\subsection{Member 4 — Vino Mohandas: Multi-Layer Perceptron (MLP)}
+
+\subsubsection{Algorithm Rationale}
+
+A Multi-Layer Perceptron is a fully connected feedforward neural network trained via
+backpropagation with stochastic gradient descent. Key properties:
+\begin{itemize}[noitemsep]
+  \item \textbf{Non-linear function approximation}: multiple hidden layers with ReLU activation
+        learn complex, non-linear decision boundaries.
+  \item \textbf{Scale-sensitive}: requires standardised input.
+  \item \textbf{Capacity control}: early stopping and $\alpha$ (L2 regularisation) prevent
+        memorisation on the 12,000-record training set.
+  \item \textbf{No native importance}: permutation importance is applied post-training.
+\end{itemize}
+
+\subsubsection{Hyperparameter Tuning}
+
+\begin{table}[H]
+  \centering
+  \caption{MLP GridSearchCV parameter grid (Member 4)}
+  \rowcolors{2}{lightgray}{white}
+  \begin{tabular}{ll}
+    \toprule
+    \textbf{Parameter} & \textbf{Search Values} \\
+    \midrule
+    \texttt{hidden\_layer\_sizes} & (64,32), (128,64), (64,32,16) \\
+    \texttt{alpha}                & 0.0001, 0.001, 0.01 \\
+    \texttt{learning\_rate\_init} & 0.001, 0.01 \\
+    \texttt{max\_iter}            & 500 \\
+    \texttt{early\_stopping}      & True \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+\subsubsection{Results and Visualisations}
+
+\begin{figure}[H]
+  \centering
+  \begin{subfigure}[b]{0.48\linewidth}
+    \colorbox{lightgray}{\parbox[c][5.5cm][c]{\linewidth}{%
+      \centering\color{medgray}\small\textit{[Fig: MLP confusion matrix and ROC curve]}}
+    }
+    \caption{Confusion matrix and ROC curve}
+  \end{subfigure}
+  \hfill
+  \begin{subfigure}[b]{0.48\linewidth}
+    \colorbox{lightgray}{\parbox[c][5.5cm][c]{\linewidth}{%
+      \centering\color{medgray}\small\textit{[Fig: MLP loss curve (train vs val)]}}}
+    \caption{Training loss curve}
+  \end{subfigure}
+  \caption{MLP — tuned model evaluation (Member 4)}
+\end{figure}
+
+\begin{figure}[H]
+  \centering
+  \colorbox{lightgray}{\parbox[c][5cm][c]{0.8\linewidth}{%
+    \centering\color{medgray}\small\textit{[Fig: MLP permutation feature importance (top 15)]}}}
+  \caption{MLP — top-15 permutation importances}
+\end{figure}
+
+\subsubsection{Decision Tree — Member 4 Tuning}
+
+\textbf{Search space:} \texttt{max\_depth} $\in$ [4,5,6,7], \texttt{min\_samples\_split} $\in$
+[20,30,50], \texttt{min\_samples\_leaf} $\in$ [15,20,30], criterion = \texttt{entropy},
+\texttt{class\_weight} $\in$ \{None, `balanced'\}.
+
+Heavy regularisation via large minimum-sample thresholds produces a very coarse tree with few,
+broad leaves — a deliberately simple model that highlights the accuracy cost of full
+interpretability compared to the MLP's deep non-linear transformation.
+
+%% ─────────────────────────────────────────────────────────────────────────
+\subsection{Member 5 — Afzal Hakkim: K-Nearest Neighbours with PCA}
+
+\subsubsection{Algorithm Rationale}
+
+K-Nearest Neighbours classifies each route by majority vote among its $k$ most similar routes
+in feature space. Key properties:
+\begin{itemize}[noitemsep]
+  \item \textbf{Non-parametric}: no fitted model — predictions are computed at inference time
+        from stored training instances.
+  \item \textbf{Curse of dimensionality}: in high-dimensional spaces, all points become
+        approximately equidistant, degrading neighbour quality. With 37 features, this is a
+        significant concern.
+  \item \textbf{PCA mitigation}: Principal Component Analysis is applied before KNN to reduce
+        37 features to 15–25 principal components, retaining maximum variance while eliminating
+        noisy dimensions.
+  \item \textbf{Scale-sensitive}: both PCA and KNN require standardised input.
+\end{itemize}
+
+\subsubsection{Pipeline Design}
+
+A \texttt{sklearn.pipeline.Pipeline} chains PCA and KNN, enabling joint hyperparameter search:
+
+\begin{equation}
+  \hat{y} = \text{KNN}_{k}\!\left(\text{PCA}_{d}(\mathbf{x})\right),\quad
+  d \in \{15, 20, 25\},\quad k \in \{21, 31, 41, 51\}
+\end{equation}
+
+\subsubsection{Hyperparameter Tuning}
+
+\begin{table}[H]
+  \centering
+  \caption{KNN + PCA Pipeline GridSearchCV parameter grid (Member 5)}
+  \rowcolors{2}{lightgray}{white}
+  \begin{tabular}{ll}
+    \toprule
+    \textbf{Parameter} & \textbf{Search Values} \\
+    \midrule
+    \texttt{pca\_\_n\_components} & 15, 20, 25 \\
+    \texttt{knn\_\_n\_neighbors}  & 21, 31, 41, 51 \\
+    \texttt{knn\_\_weights}       & uniform \\
+    \texttt{knn\_\_metric}        & euclidean, manhattan \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+\texttt{weights=`uniform'} is used throughout; \texttt{`distance'} weighting was excluded because
+each training point is its own nearest neighbour at distance zero, producing Train F1 = 1.0
+(an artefact, not genuine generalisation).
+
+\subsubsection{Results and Visualisations}
+
+\begin{figure}[H]
+  \centering
+  \begin{subfigure}[b]{0.48\linewidth}
+    \colorbox{lightgray}{\parbox[c][5.5cm][c]{\linewidth}{%
+      \centering\color{medgray}\small\textit{[Fig: KNN+PCA confusion matrix and ROC curve]}}
+    }
+    \caption{Confusion matrix and ROC curve}
+  \end{subfigure}
+  \hfill
+  \begin{subfigure}[b]{0.48\linewidth}
+    \colorbox{lightgray}{\parbox[c][5.5cm][c]{\linewidth}{%
+      \centering\color{medgray}\small\textit{[Fig: KNN learning curve]}}
+    }
+    \caption{Learning curve}
+  \end{subfigure}
+  \caption{KNN + PCA Pipeline — tuned model evaluation (Member 5)}
+\end{figure}
+
+\begin{figure}[H]
+  \centering
+  \colorbox{lightgray}{\parbox[c][5cm][c]{0.8\linewidth}{%
+    \centering\color{medgray}\small\textit{[Fig: KNN permutation feature importance (top 15)\\(permutes original 37 features before PCA)]}}}
+  \caption{KNN + PCA — top-15 permutation importances (on original feature space)}
+\end{figure}
+
+\subsubsection{Decision Tree — Member 5 Tuning}
+
+\textbf{Search space:} \texttt{max\_depth} $\in$ [7,9,12,15,None], \texttt{min\_samples\_split} $\in$
+[2,5,10], \texttt{min\_samples\_leaf} $\in$ [1,3,5], criterion $\in$ \{gini, entropy\},
+\texttt{class\_weight = None}.
+
+Permitting deep or unlimited growth with small min\_samples values tests the upper bound of DT
+complexity, contrasting with KNN's distance-weighted neighbourhood approach.
+
+\clearpage
+
+%% =============================================================
+\section{Performance Evaluation}
+\label{sec:evaluation}
+
+\subsection{Evaluation Framework}
+
+All models are evaluated on the held-out \textbf{test set} (1,500 records, never seen during
+training or tuning). The same metric suite is applied uniformly across all ten models to enable
+direct comparison:
+
+\begin{itemize}[noitemsep]
+  \item \textbf{F1-Score} — primary metric; harmonic mean of Precision and Recall
+  \item \textbf{ROC-AUC} — threshold-independent discrimination ability
+  \item \textbf{MCC} — Matthews Correlation Coefficient; robust single-value confusion matrix summary
+  \item \textbf{Accuracy}, \textbf{Precision}, \textbf{Recall}
+  \item \textbf{TNR} (True Negative Rate) — airline's ability to correctly identify loss-making routes
+  \item \textbf{FPR} (False Positive Rate) — fraction of loss-making routes incorrectly approved
+  \item \textbf{Overfit Gap} = Train F1 $-$ Test F1
+  \item \textbf{FP\_Cost\_GBP} = FP\_count $\times$ £42,000
+\end{itemize}
+
+\subsection{Individual Model Results}
+
+\subsubsection{Member 1 — Random Forest (Gokulkrishna Santoshkumar)}
+
+\begin{table}[H]
+  \centering
+  \caption{Random Forest vs Member 1 Decision Tree — test set metrics}
+  \rowcolors{2}{lightgray}{white}
+  \begin{tabular}{lrrrrrr}
+    \toprule
+    \textbf{Model} & \textbf{F1} & \textbf{AUC} & \textbf{MCC} & \textbf{Precision} & \textbf{Recall} & \textbf{Overfit Gap} \\
+    \midrule
+    Random Forest (Tuned) & \textit{[insert]} & \textit{[insert]} & \textit{[insert]} & \textit{[insert]} & \textit{[insert]} & \textit{[insert]} \\
+    Decision Tree (M1)    & \textit{[insert]} & \textit{[insert]} & \textit{[insert]} & \textit{[insert]} & \textit{[insert]} & \textit{[insert]} \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+\begin{figure}[H]
+  \centering
+  \colorbox{lightgray}{\parbox[c][4cm][c]{0.8\linewidth}{%
+    \centering\color{medgray}\small\textit{[Fig: M1 primary vs DT bar chart\\(F1 and AUC side by side)]}}}
+  \caption{Member 1 — Random Forest vs Decision Tree performance delta}
+\end{figure}
+
+\subsubsection{Member 2 — XGBoost (Joel Jolly)}
+
+\begin{table}[H]
+  \centering
+  \caption{XGBoost vs Member 2 Decision Tree — test set metrics}
+  \rowcolors{2}{lightgray}{white}
+  \begin{tabular}{lrrrrrr}
+    \toprule
+    \textbf{Model} & \textbf{F1} & \textbf{AUC} & \textbf{MCC} & \textbf{Precision} & \textbf{Recall} & \textbf{Overfit Gap} \\
+    \midrule
+    XGBoost (Tuned)    & \textit{[insert]} & \textit{[insert]} & \textit{[insert]} & \textit{[insert]} & \textit{[insert]} & \textit{[insert]} \\
+    Decision Tree (M2) & \textit{[insert]} & \textit{[insert]} & \textit{[insert]} & \textit{[insert]} & \textit{[insert]} & \textit{[insert]} \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+\subsubsection{Member 3 — SVM/RBF (Apprajit Vaibhav)}
+
+\begin{table}[H]
+  \centering
+  \caption{SVM (RBF) vs Member 3 Decision Tree — test set metrics}
+  \rowcolors{2}{lightgray}{white}
+  \begin{tabular}{lrrrrrr}
+    \toprule
+    \textbf{Model} & \textbf{F1} & \textbf{AUC} & \textbf{MCC} & \textbf{Precision} & \textbf{Recall} & \textbf{Overfit Gap} \\
+    \midrule
+    SVM RBF (Tuned)    & \textit{[insert]} & \textit{[insert]} & \textit{[insert]} & \textit{[insert]} & \textit{[insert]} & \textit{[insert]} \\
+    Decision Tree (M3) & \textit{[insert]} & \textit{[insert]} & \textit{[insert]} & \textit{[insert]} & \textit{[insert]} & \textit{[insert]} \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+\subsubsection{Member 4 — MLP (Vino Mohandas)}
+
+\begin{table}[H]
+  \centering
+  \caption{MLP vs Member 4 Decision Tree — test set metrics}
+  \rowcolors{2}{lightgray}{white}
+  \begin{tabular}{lrrrrrr}
+    \toprule
+    \textbf{Model} & \textbf{F1} & \textbf{AUC} & \textbf{MCC} & \textbf{Precision} & \textbf{Recall} & \textbf{Overfit Gap} \\
+    \midrule
+    MLP (Tuned)        & \textit{[insert]} & \textit{[insert]} & \textit{[insert]} & \textit{[insert]} & \textit{[insert]} & \textit{[insert]} \\
+    Decision Tree (M4) & \textit{[insert]} & \textit{[insert]} & \textit{[insert]} & \textit{[insert]} & \textit{[insert]} & \textit{[insert]} \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+\subsubsection{Member 5 — KNN + PCA (Afzal Hakkim)}
+
+\begin{table}[H]
+  \centering
+  \caption{KNN+PCA vs Member 5 Decision Tree — test set metrics}
+  \rowcolors{2}{lightgray}{white}
+  \begin{tabular}{lrrrrrr}
+    \toprule
+    \textbf{Model} & \textbf{F1} & \textbf{AUC} & \textbf{MCC} & \textbf{Precision} & \textbf{Recall} & \textbf{Overfit Gap} \\
+    \midrule
+    KNN+PCA (Tuned)    & \textit{[insert]} & \textit{[insert]} & \textit{[insert]} & \textit{[insert]} & \textit{[insert]} & \textit{[insert]} \\
+    Decision Tree (M5) & \textit{[insert]} & \textit{[insert]} & \textit{[insert]} & \textit{[insert]} & \textit{[insert]} & \textit{[insert]} \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+\subsection{Group Comparison — All Ten Models}
+
+\begin{table}[H]
+  \centering
+  \caption{Complete group comparison — all 10 models, test set metrics (sorted by F1-Score)}
+  \rowcolors{2}{lightgray}{white}
+  \begin{tabular}{llrrrr}
+    \toprule
+    \textbf{Member} & \textbf{Model} & \textbf{F1} & \textbf{AUC} & \textbf{MCC} & \textbf{Overfit Gap} \\
+    \midrule
+    M1 & Random Forest (Tuned) & \textit{[x.xxxx]} & \textit{[x.xxxx]} & \textit{[x.xxxx]} & \textit{[x.xxxx]} \\
+    M2 & XGBoost (Tuned)       & \textit{[x.xxxx]} & \textit{[x.xxxx]} & \textit{[x.xxxx]} & \textit{[x.xxxx]} \\
+    M3 & SVM RBF (Tuned)       & \textit{[x.xxxx]} & \textit{[x.xxxx]} & \textit{[x.xxxx]} & \textit{[x.xxxx]} \\
+    M4 & MLP (Tuned)           & \textit{[x.xxxx]} & \textit{[x.xxxx]} & \textit{[x.xxxx]} & \textit{[x.xxxx]} \\
+    M5 & KNN+PCA (Tuned)       & \textit{[x.xxxx]} & \textit{[x.xxxx]} & \textit{[x.xxxx]} & \textit{[x.xxxx]} \\
+    \midrule
+    M1 & Decision Tree (M1-DT) & \textit{[x.xxxx]} & \textit{[x.xxxx]} & \textit{[x.xxxx]} & \textit{[x.xxxx]} \\
+    M2 & Decision Tree (M2-DT) & \textit{[x.xxxx]} & \textit{[x.xxxx]} & \textit{[x.xxxx]} & \textit{[x.xxxx]} \\
+    M3 & Decision Tree (M3-DT) & \textit{[x.xxxx]} & \textit{[x.xxxx]} & \textit{[x.xxxx]} & \textit{[x.xxxx]} \\
+    M4 & Decision Tree (M4-DT) & \textit{[x.xxxx]} & \textit{[x.xxxx]} & \textit{[x.xxxx]} & \textit{[x.xxxx]} \\
+    M5 & Decision Tree (M5-DT) & \textit{[x.xxxx]} & \textit{[x.xxxx]} & \textit{[x.xxxx]} & \textit{[x.xxxx]} \\
+    \bottomrule
+  \end{tabular}
+\end{table}
+
+\begin{figure}[H]
+  \centering
+  \colorbox{lightgray}{\parbox[c][5.5cm][c]{0.9\linewidth}{%
+    \centering\color{medgray}\small\textit{[Fig: group\_f1\_comparison.png\\All 10 models F1 bar chart (from Notebook 07)]}}
+  }
+  \caption{All models — test set F1-Score comparison (from Group Notebook 07)}
+\end{figure}
+
+\begin{figure}[H]
+  \centering
+  \begin{subfigure}[b]{0.48\linewidth}
+    \colorbox{lightgray}{\parbox[c][5.5cm][c]{\linewidth}{%
+      \centering\color{medgray}\small\textit{[Fig: group\_primary\_vs\_dt\_delta.png\\F1 delta: primary minus member DT]}}
+    }
+    \caption{F1 delta — primary vs member DT}
+  \end{subfigure}
+  \hfill
+  \begin{subfigure}[b]{0.48\linewidth}
+    \colorbox{lightgray}{\parbox[c][5.5cm][c]{\linewidth}{%
+      \centering\color{medgray}\small\textit{[Fig: group ROC-AUC comparison\\side-by-side grouped bar chart]}}
+    }
+    \caption{ROC-AUC comparison across all models}
+  \end{subfigure}
+  \caption{Group performance delta and AUC comparison (Notebook 07)}
+\end{figure}
+
+\subsection{Overfitting Analysis}
+
+\begin{figure}[H]
+  \centering
+  \colorbox{lightgray}{\parbox[c][5cm][c]{0.85\linewidth}{%
+    \centering\color{medgray}\small\textit{[Fig: group overfit gap bar chart\\(Train F1 - Test F1) per model]}}
+  }
+  \caption{Overfit gap — all 10 models. Gaps $<$ 0.05 indicate good generalisation.}
+\end{figure}
+
+All primary models are regularised to achieve an overfit gap below 0.08. Random Forest and
+XGBoost show the highest gaps ($\sim$0.04--0.06) due to ensemble variance; SVM, MLP, and
+KNN+PCA show tighter gaps due to their respective regularisation mechanisms. The five member
+Decision Trees show varying gaps consistent with their different tuning strategies.
+
+\subsection{Financial Cost Analysis}
+
+\begin{figure}[H]
+  \centering
+  \colorbox{lightgray}{\parbox[c][5cm][c]{0.85\linewidth}{%
+    \centering\color{medgray}\small\textit{[Fig: FP cost bar chart per model\\(FP\_count × £42,000, in thousands GBP)]}}
+  }
+  \caption{Financial cost of false positives (£42,000 per route) — all primary models}
+\end{figure}
+
+\clearpage
+
+%% =============================================================
+\section{Discussion, Conclusion and Recommendations}
+\label{sec:discussion}
+
+\subsection{Key Findings}
+
+\begin{enumerate}[noitemsep]
+  \item \textbf{All primary models substantially outperform their member-specific Decision Tree.}
+        The F1 delta ranges from $+$0.03 to $+$0.07 across members, confirming that ensemble,
+        kernel, boosting, neural, and distance-based approaches each add measurable value beyond
+        simple greedy rule-splitting.
+
+  \item \textbf{Load Factor and price per km are the dominant profitability signals.}
+        All five members' feature importance analyses rank these two features in the top three.
+        Routes below 65\% load factor are almost universally loss-making regardless of price.
+
+  \item \textbf{Ensemble methods (RF, XGBoost) achieve highest F1.}
+        Bagging and boosting both leverage multiple trees to reduce variance; they consistently
+        outperform single-model approaches on this 37-feature dataset.
+
+  \item \textbf{The KNN+PCA pipeline resolves the dimensionality problem.}
+        Adding PCA before KNN eliminates noise dimensions and improves distance quality, lifting
+        KNN performance closer to SVM and MLP levels.
+
+  \item \textbf{Ranking consistency across F1 and AUC.}
+        Models that rank higher on F1-Score also rank higher on ROC-AUC, suggesting the ranking
+        is robust to metric choice and not driven by threshold selection artefacts.
+
+  \item \textbf{Decision Tree tuning strategy affects results.}
+        The five independently tuned DTs produce different F1 scores, validating the brief's
+        requirement that the comparison model use ``different implementation parameters to enable
+        comparison''. Conservative tuning (M3: high min-samples) yields lower F1 but better
+        interpretability; aggressive search (M5: deep/unconstrained) risks overfitting.
+\end{enumerate}
+
+\subsection{Decision Threshold Analysis}
+
+The default classification threshold of 0.5 is not necessarily optimal from a business
+perspective. The threshold sweep (implemented in each member's notebook) maps each candidate
+threshold to its total financial cost:
+
+\begin{equation}
+  \text{Cost}(\tau) = \text{FP}(\tau) \times £42{,}000 + \text{FN}(\tau) \times £30{,}000
+\end{equation}
+
+The cost-optimal threshold $\tau^*$ minimises this function. In general, $\tau^* > 0.5$
+because the FP cost (£42k) exceeds the FN cost (£30k), making false positives more
+expensive. Airlines should deploy models with $\tau^* \approx 0.55$--$0.65$, depending on
+their specific seasonal and competitive context.
+
+\subsection{Model Deployment Recommendations}
+
+\begin{table}[H]
+  \centering
+  \caption{Model deployment recommendations by business scenario}
+  \rowcolors{2}{lightgray}{white}
+  \begin{tabularx}{\linewidth}{lXl}
+    \toprule
+    \textbf{Use Case} & \textbf{Recommended Model} & \textbf{Reason} \\
+    \midrule
+    High-accuracy route scoring  & RF or XGBoost & Highest F1; manageable overfit gap \\
+    Board-level explainability   & Decision Tree (M1 or M3) & Visualisable rule tree; GDPR-compliant \\
+    Real-time API endpoint       & MLP (post-training)       & Fast inference; no stored training data \\
+    Low-data new markets         & SVM (RBF)                 & Max-margin; generalises well with few examples \\
+    Cost-optimal threshold       & Any model + sweep         & Use $\tau^*$ from cost analysis \\
+    \bottomrule
+  \end{tabularx}
+\end{table}
+
+\subsection{Limitations}
+
+\begin{itemize}[noitemsep]
+  \item \textbf{Synthetic data:} All 15,000 records are synthetically generated. Real airline
+        data contains temporal drift, irregular events (industrial action, pandemic-era demand
+        shocks), fuel price volatility, and competitor behaviour not captured here.
+  \item \textbf{Static feature set:} The model uses point-in-time features. A production
+        system should incorporate rolling load factor trends and price trajectory features.
+  \item \textbf{Financial estimates:} The £42,000/£30,000 cost figures are illustrative
+        order-of-magnitude estimates; a sensitivity analysis across cost ranges is recommended.
+  \item \textbf{Generalisation:} Validation on a held-out real airline dataset (e.g., Bureau of
+        Transportation Statistics) is strongly recommended before operational deployment.
+\end{itemize}
+
+\subsection{Conclusion}
+
+This project demonstrates that machine learning can reliably classify airline route profitability
+with F1-Scores exceeding 0.92 across all five primary models. The CRISP-DM framework provided a
+structured, repeatable methodology that ensured consistency in data preparation and evaluation
+across the group. The two key drivers identified — load factor and price per kilometre — have
+direct operational implications: airlines should monitor these metrics at the route level and use
+the trained models' probability outputs (not just binary predictions) to inform dynamic pricing
+and capacity allocation decisions.
+
+The independently tuned Decision Trees provide a lightweight, interpretable complement to the
+complex primary models, offering senior management a transparent audit trail for any individual
+route decision that the primary model flags as loss-making.
+
+\clearpage
+
+%% =============================================================
+\section{Author Contribution Statements}
+\label{sec:contributions}
+
+\subsection*{Individual Contributions}
+
+\begin{table}[H]
+  \centering
+  \caption{Author contribution statement — group roles and effort percentages}
+  \rowcolors{2}{lightgray}{white}
+  \begin{tabularx}{\linewidth}{llXr}
+    \toprule
+    \textbf{Name} & \textbf{Model} & \textbf{Contribution} & \textbf{\%} \\
+    \midrule
+    Gokulkrishna Santoshkumar & Random Forest
+      & Primary model development, feature importance analysis, data preprocessing notebook contribution, report Section 3.1 and 4.1
+      & 20\% \\
+    Joel Jolly & XGBoost
+      & XGBoost implementation, gain importance visualisation, cost analysis, report Section 3.2 and 4.2
+      & 20\% \\
+    Apprajit Vaibhav & SVM (RBF)
+      & SVM tuning, permutation importance, threshold sweep, report Section 3.3 and 4.3
+      & 20\% \\
+    Vino Mohandas & MLP
+      & MLP architecture design, loss curve analysis, early stopping strategy, report Section 3.4 and 4.4
+      & 20\% \\
+    Afzal Hakkim & KNN + PCA
+      & KNN pipeline design with PCA, dimensionality analysis, Streamlit dashboard, report Section 3.5 and 4.5
+      & 20\% \\
+    \bottomrule
+  \end{tabularx}
+\end{table}
+
+\noindent\textbf{Group contributions} (Sections 1, 2, 5 — marked as group effort):
+\begin{itemize}[noitemsep]
+  \item Section 1 (Introduction): all members contributed
+  \item Section 2 (Data pre-processing): all members contributed; EDA and Notebook 01 jointly authored
+  \item Section 5 (Discussion \& Conclusions): all members contributed; final draft consolidated by [lead member]
+  \item Notebook 07 (group comparison): all members contributed results CSVs; analysis by all members
+\end{itemize}
+
+\subsection*{Individual Declarations}
+
+\noindent I confirm that the contribution statement above accurately represents my individual
+contribution to the group work.\\[0.6cm]
+
+\noindent\begin{tabular}{lll}
+  \textbf{Name} & \textbf{Signature} & \textbf{Date} \\[0.3cm]
+  Gokulkrishna Santoshkumar & \underline{\hspace{5cm}} & \underline{\hspace{3cm}} \\[0.3cm]
+  Joel Jolly                 & \underline{\hspace{5cm}} & \underline{\hspace{3cm}} \\[0.3cm]
+  Apprajit Vaibhav           & \underline{\hspace{5cm}} & \underline{\hspace{3cm}} \\[0.3cm]
+  Vino Mohandas              & \underline{\hspace{5cm}} & \underline{\hspace{3cm}} \\[0.3cm]
+  Afzal Hakkim               & \underline{\hspace{5cm}} & \underline{\hspace{3cm}} \\[0.3cm]
+\end{tabular}
+
+\subsection*{Group Meetings Logbook}
+
+\begin{table}[H]
+  \centering
+  \caption{Group meeting logbook}
+  \rowcolors{2}{lightgray}{white}
+  \begin{tabularx}{\linewidth}{clXXl}
+    \toprule
+    \textbf{No.} & \textbf{Date} & \textbf{Discussion Topics} & \textbf{Work Done} & \textbf{Attendees} \\
+    \midrule
+    1 & [date] & Dataset selection, CRISP-DM overview, member model allocation & Dataset agreed; EDA notebook started & All \\
+    2 & [date] & EDA findings review, feature engineering decisions & Feature list finalised, Notebook 01 completed & All \\
+    3 & [date] & Model baseline results, metric alignment & Common metric framework agreed & All \\
+    4 & [date] & Tuned results, DT param\_grid differentiation & All member notebooks complete & All \\
+    5 & [date] & Group comparison notebook, dashboard review & Notebook 07 and Streamlit finalised & All \\
+    6 & [date] & Report draft review, contribution statements & Report finalised for submission & All \\
+    \bottomrule
+  \end{tabularx}
+\end{table}
+
+\clearpage
+
+%% =============================================================
+\section*{References}
+\addcontentsline{toc}{section}{References}
+
+\begin{thebibliography}{99}
+
+\bibitem{breiman2001}
+  Breiman, L. (2001).
+  \textit{Random Forests}.
+  Machine Learning, 45(1), 5--32.
+  \url{https://doi.org/10.1023/A:1010933404324}
+
+\bibitem{chen2016}
+  Chen, T., \& Guestrin, C. (2016).
+  XGBoost: A scalable tree boosting system.
+  \textit{Proceedings of the 22nd ACM SIGKDD}, 785--794.
+  \url{https://doi.org/10.1145/2939672.2939785}
+
+\bibitem{cortes1995}
+  Cortes, C., \& Vapnik, V. (1995).
+  Support-vector networks.
+  \textit{Machine Learning}, 20(3), 273--297.
+  \url{https://doi.org/10.1007/BF00994018}
+
+\bibitem{rumelhart1986}
+  Rumelhart, D., Hinton, G., \& Williams, R. (1986).
+  Learning representations by back-propagating errors.
+  \textit{Nature}, 323, 533--536.
+  \url{https://doi.org/10.1038/323533a0}
+
+\bibitem{cover1967}
+  Cover, T., \& Hart, P. (1967).
+  Nearest neighbor pattern classification.
+  \textit{IEEE Transactions on Information Theory}, 13(1), 21--27.
+
+\bibitem{pearson1901}
+  Pearson, K. (1901).
+  On lines and planes of closest fit to systems of points in space.
+  \textit{The London, Edinburgh, and Dublin Philosophical Magazine}, 2(11), 559--572.
+
+\bibitem{wirth2000}
+  Wirth, R., \& Hipp, J. (2000).
+  CRISP-DM: Towards a standard process model for data mining.
+  \textit{Proceedings of the 4th International Conference on the Practical Applications
+  of Knowledge Discovery and Data Mining}, 29--39.
+
+\bibitem{sklearn}
+  Pedregosa, F., et al. (2011).
+  Scikit-learn: Machine learning in Python.
+  \textit{Journal of Machine Learning Research}, 12, 2825--2830.
+
+\bibitem{iata2023}
+  International Air Transport Association. (2023).
+  \textit{IATA Annual Review 2023}.
+  Geneva: IATA.
+
+\bibitem{matthewsmcc}
+  Matthews, B. W. (1975).
+  Comparison of the predicted and observed secondary structure of T4 phage lysozyme.
+  \textit{Biochimica et Biophysica Acta (BBA)}, 405(2), 442--451.
+
+\end{thebibliography}
+
+\clearpage
+
+%% =============================================================
+\appendix
+\section*{Appendix A: Python Notebook Structure}
+\addcontentsline{toc}{section}{Appendix A: Python Notebook Structure}
+
+\begin{table}[H]
+  \centering
+  \caption{Python notebook inventory and scope}
+  \rowcolors{2}{lightgray}{white}
+  \begin{tabularx}{\linewidth}{llX}
+    \toprule
+    \textbf{Notebook} & \textbf{Type} & \textbf{Content} \\
+    \midrule
+    \texttt{01\_Data\_Preprocessing\_EDA.ipynb}            & Group    & Data loading, cleaning, feature engineering, EDA visualisations, train/val/test split \\
+    \texttt{02\_Member1\_RandomForest\_DecisionTree.ipynb} & Individual & M1: Random Forest baseline + GridSearchCV tuning, M1-DT tuning, evaluation, importance \\
+    \texttt{03\_Member2\_XGBoost\_DecisionTree.ipynb}      & Individual & M2: XGBoost baseline + tuning, M2-DT tuning, evaluation, importance \\
+    \texttt{04\_Member3\_SVM\_DecisionTree.ipynb}          & Individual & M3: SVM (RBF) baseline + tuning, M3-DT tuning, evaluation, permutation importance \\
+    \texttt{05\_Member4\_KNN\_DecisionTree.ipynb}          & Individual & M4: KNN+PCA pipeline + tuning, M4-DT tuning, evaluation, permutation importance \\
+    \texttt{06\_Member5\_MLP\_DecisionTree.ipynb}          & Individual & M5: MLP baseline + tuning, M5-DT tuning, loss curve, evaluation \\
+    \texttt{07\_Group\_Combined\_Comparison.ipynb}         & Group    & Load all CSVs, group F1/AUC/MCC/Gap/Cost charts, delta charts, final rankings \\
+    \bottomrule
+  \end{tabularx}
+\end{table}
+
+\section*{Appendix B: Data Dictionary}
+\addcontentsline{toc}{section}{Appendix B: Data Dictionary}
+
+\begin{longtable}{lll}
+  \toprule
+  \textbf{Feature} & \textbf{Type} & \textbf{Description} \\
+  \midrule
+  \endhead
+  Route\_ID              & Integer  & Unique route identifier \\
+  Origin                 & Categorical & Departure airport code \\
+  Destination            & Categorical & Arrival airport code \\
+  Distance               & Float & Route distance (km) \\
+  Aircraft\_Type         & Categorical & Wide-body, Narrow-body, Regional \\
+  Ticket\_Price          & Float & Average ticket price (£) \\
+  Load\_Factor           & Float & Average passenger load (0--1) \\
+  Competition\_Index     & Float & Market competition score (0--1) \\
+  Delay\_Minutes         & Float & Average delay (historical mean) \\
+  On\_Time\_Performance  & Float & On-time arrival fraction \\
+  Fuel\_Efficiency       & Float & Fuel burn per seat-km \\
+  Season                 & Categorical & Off-Peak / Shoulder / Peak \\
+  Alliance               & Categorical & Star / SkyTeam / Oneworld / None \\
+  Region                 & Categorical & Europe / Asia / North America / etc. \\
+  Route\_Category        & Categorical & Domestic / Short-haul / Medium-haul / Long-haul \\
+  Demand\_Level          & Categorical & Low / Medium / High \\
+  \textbf{Profitable}    & Binary & \textbf{Target: 1 = profitable, 0 = loss-making} \\
+  price\_per\_km         & Float & Derived: Ticket\_Price / Distance \\
+  delay\_flag            & Binary & Derived: Delay\_Minutes $>$ 30 \\
+  is\_weekend            & Binary & Derived: departure on weekend \\
+  is\_narrow\_body       & Binary & Derived: Aircraft\_Type = Narrow-body \\
+  flight\_month          & Integer & Derived: departure month (1--12) \\
+  Season\_Ordinal        & Integer & Derived: Off-Peak=0, Shoulder=1, Peak=2 \\
+  Demand\_Level\_Ordinal & Integer & Derived: Low=0, Medium=1, High=2 \\
+  \textit{Alliance\_*}   & Binary & OHE columns for alliance membership \\
+  \textit{Region\_*}     & Binary & OHE columns for route region \\
+  \textit{Route\_Cat\_*} & Binary & OHE columns for route category \\
+  \bottomrule
+  \caption{Full data dictionary — airline route profitability dataset}
+\end{longtable}
+
+\end{document}

@@ -1,0 +1,17 @@
+{
+  "permissions": {
+    "allow": [
+      "Skill(caveman)",
+      "Skill(caveman:*)",
+      "Bash(find /Users/gokulkrishnas -name \"airline_route_profitability_kaggle.csv\" 2>/dev/null | head -5)",
+      "Bash(python3 -c ' *)",
+      "Skill(anthropic-skills:docx)",
+      "Skill(anthropic-skills:docx:*)",
+      "Bash(pandoc \"/Users/gokulkrishnas/Work_Folder/Notes/BA&DV/good_coursework.docx\" -t plain)",
+      "Bash(pandoc \"/Users/gokulkrishnas/Work_Folder/Notes/BA&DV/COM3032-COMM074 Coursework Template [Group No].docx\" -t markdown)",
+      "Bash(pandoc \"/Users/gokulkrishnas/Work_Folder/Notes/BA&DV/good_coursework.docx\" -t markdown)",
+      "Skill(anthropic-skills:humanizer)",
+      "Skill(anthropic-skills:humanizer:*)"
+    ]
+  }
+}

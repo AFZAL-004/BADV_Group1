@@ -1,0 +1,66 @@
+\contentsline {section}{Executive Summary}{i}{Doc-Start}%
+\contentsline {section}{\numberline {1}Introduction}{1}{section.1}%
+\contentsline {subsection}{\numberline {1.1}Business context and motivation}{1}{subsection.1.1}%
+\contentsline {subsection}{\numberline {1.2}Problem statement}{1}{subsection.1.2}%
+\contentsline {subsection}{\numberline {1.3}Research questions}{1}{subsection.1.3}%
+\contentsline {subsection}{\numberline {1.4}Assumptions}{2}{subsection.1.4}%
+\contentsline {subsection}{\numberline {1.5}CRISP-DM methodology}{2}{subsection.1.5}%
+\contentsline {subsection}{\numberline {1.6}Dataset overview}{3}{subsection.1.6}%
+\contentsline {subsubsection}{\numberline {1.6.1}Source and provenance}{3}{subsubsection.1.6.1}%
+\contentsline {subsubsection}{\numberline {1.6.2}Data dictionary}{3}{subsubsection.1.6.2}%
+\contentsline {section}{\numberline {2}Data Understanding, Pre-Processing, and Exploration}{4}{section.2}%
+\contentsline {subsection}{\numberline {2.1}Initial data inspection}{4}{subsection.2.1}%
+\contentsline {subsection}{\numberline {2.2}Leakage removal}{5}{subsection.2.2}%
+\contentsline {subsection}{\numberline {2.3}Outlier detection and handling}{5}{subsection.2.3}%
+\contentsline {subsection}{\numberline {2.4}Feature engineering}{6}{subsection.2.4}%
+\contentsline {subsection}{\numberline {2.5}Exploratory data analysis}{8}{subsection.2.5}%
+\contentsline {subsubsection}{\numberline {2.5.1}Numerical feature distributions by class}{8}{subsubsection.2.5.1}%
+\contentsline {subsubsection}{\numberline {2.5.2}Seasonal patterns}{9}{subsubsection.2.5.2}%
+\contentsline {subsubsection}{\numberline {2.5.3}Correlation structure}{9}{subsubsection.2.5.3}%
+\contentsline {subsubsection}{\numberline {2.5.4}PCA projection}{10}{subsubsection.2.5.4}%
+\contentsline {subsubsection}{\numberline {2.5.5}Load factor density by class}{11}{subsubsection.2.5.5}%
+\contentsline {subsection}{\numberline {2.6}Feature summary}{11}{subsection.2.6}%
+\contentsline {subsection}{\numberline {2.7}Data splitting and scaling}{12}{subsection.2.7}%
+\contentsline {section}{\numberline {3}Modelling}{13}{section.3}%
+\contentsline {subsection}{\numberline {3.1}Random Forest -- Gokulkrishna Santhoshkumar}{13}{subsection.3.1}%
+\contentsline {subsubsection}{\numberline {3.1.1}Algorithm overview}{13}{subsubsection.3.1.1}%
+\contentsline {subsubsection}{\numberline {3.1.2}Decision Tree baseline}{14}{subsubsection.3.1.2}%
+\contentsline {subsubsection}{\numberline {3.1.3}Hyperparameter tuning}{14}{subsubsection.3.1.3}%
+\contentsline {subsubsection}{\numberline {3.1.4}Results}{15}{subsubsection.3.1.4}%
+\contentsline {subsection}{\numberline {3.2}XGBoost -- Joel Jolly}{16}{subsection.3.2}%
+\contentsline {subsubsection}{\numberline {3.2.1}Algorithm overview}{16}{subsubsection.3.2.1}%
+\contentsline {subsubsection}{\numberline {3.2.2}Decision Tree baseline}{17}{subsubsection.3.2.2}%
+\contentsline {subsubsection}{\numberline {3.2.3}Hyperparameter tuning}{17}{subsubsection.3.2.3}%
+\contentsline {subsubsection}{\numberline {3.2.4}Results}{18}{subsubsection.3.2.4}%
+\contentsline {subsection}{\numberline {3.3}Support Vector Machine -- Apprajit Manikandan}{19}{subsection.3.3}%
+\contentsline {subsubsection}{\numberline {3.3.1}Algorithm overview}{19}{subsubsection.3.3.1}%
+\contentsline {subsubsection}{\numberline {3.3.2}Decision Tree baseline}{19}{subsubsection.3.3.2}%
+\contentsline {subsubsection}{\numberline {3.3.3}Hyperparameter tuning}{19}{subsubsection.3.3.3}%
+\contentsline {subsubsection}{\numberline {3.3.4}Results}{20}{subsubsection.3.3.4}%
+\contentsline {subsection}{\numberline {3.4}Logistic Regression with Polynomial Features -- Afzal Hakkim}{21}{subsection.3.4}%
+\contentsline {subsubsection}{\numberline {3.4.1}Algorithm overview}{21}{subsubsection.3.4.1}%
+\contentsline {subsubsection}{\numberline {3.4.2}Decision Tree baseline}{21}{subsubsection.3.4.2}%
+\contentsline {subsubsection}{\numberline {3.4.3}Hyperparameter tuning}{21}{subsubsection.3.4.3}%
+\contentsline {subsubsection}{\numberline {3.4.4}Results}{22}{subsubsection.3.4.4}%
+\contentsline {subsection}{\numberline {3.5}Multi-Layer Perceptron -- Vino Mohandas Nedumpully}{23}{subsection.3.5}%
+\contentsline {subsubsection}{\numberline {3.5.1}Algorithm overview}{23}{subsubsection.3.5.1}%
+\contentsline {subsubsection}{\numberline {3.5.2}Decision Tree baseline}{23}{subsubsection.3.5.2}%
+\contentsline {subsubsection}{\numberline {3.5.3}Hyperparameter tuning}{23}{subsubsection.3.5.3}%
+\contentsline {subsubsection}{\numberline {3.5.4}Results}{24}{subsubsection.3.5.4}%
+\contentsline {section}{\numberline {4}Performance Evaluation}{25}{section.4}%
+\contentsline {subsection}{\numberline {4.1}Evaluation metric justification}{25}{subsection.4.1}%
+\contentsline {subsection}{\numberline {4.2}Cross-validation summary}{25}{subsection.4.2}%
+\contentsline {subsection}{\numberline {4.3}Cross-model comparison}{26}{subsection.4.3}%
+\contentsline {subsection}{\numberline {4.4}Key observations from the comparison}{27}{subsection.4.4}%
+\contentsline {paragraph}{All primary models beat their baselines.}{27}{paragraph*.35}%
+\contentsline {paragraph}{The F1 range across primary models is narrow.}{27}{paragraph*.36}%
+\contentsline {paragraph}{Model selection depends on the business objective.}{27}{paragraph*.37}%
+\contentsline {paragraph}{Overfitting is controlled across the board.}{27}{paragraph*.38}%
+\contentsline {section}{\numberline {5}Discussion, Conclusions, and Recommendations}{28}{section.5}%
+\contentsline {subsection}{\numberline {5.1}What the models tell us about route profitability}{28}{subsection.5.1}%
+\contentsline {subsection}{\numberline {5.2}Business recommendations}{28}{subsection.5.2}%
+\contentsline {subsection}{\numberline {5.3}Limitations}{29}{subsection.5.3}%
+\contentsline {subsection}{\numberline {5.4}Future work}{29}{subsection.5.4}%
+\contentsline {subsection}{\numberline {5.5}Conclusion}{29}{subsection.5.5}%
+\contentsline {section}{\numberline {6}Author Contribution Statement}{30}{section.6}%
+\contentsline {section}{Pending Figures}{31}{table.caption.39}%

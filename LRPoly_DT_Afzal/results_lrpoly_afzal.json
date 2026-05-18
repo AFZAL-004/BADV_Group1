@@ -1,0 +1,80 @@
+{
+  "model_name": "LR+Poly",
+  "notebook": "05_Member4",
+  "best_params_primary": {
+    "lr__C": 0.1,
+    "lr__class_weight": null,
+    "lr__penalty": "l2",
+    "lr__solver": "lbfgs",
+    "poly__degree": 2
+  },
+  "best_params_dt": {
+    "class_weight": null,
+    "criterion": "entropy",
+    "max_depth": 7,
+    "min_samples_leaf": 5,
+    "min_samples_split": 2
+  },
+  "val_metrics_primary": {
+    "Model": "LR+Poly-val",
+    "Accuracy": 0.8987,
+    "Precision": 0.9135,
+    "Recall": 0.9288,
+    "F1_Score": 0.9211,
+    "ROC_AUC": 0.9683
+  },
+  "test_metrics_primary": {
+    "Model": "LR+Poly-test",
+    "Accuracy": 0.9087,
+    "Precision": 0.9199,
+    "Recall": 0.9382,
+    "F1_Score": 0.929,
+    "ROC_AUC": 0.9721
+  },
+  "val_metrics_dt": {
+    "Model": "DT-val",
+    "Accuracy": 0.8927,
+    "Precision": 0.9223,
+    "Recall": 0.9079,
+    "F1_Score": 0.915,
+    "ROC_AUC": 0.9586
+  },
+  "test_metrics_dt": {
+    "Model": "DT-test",
+    "Accuracy": 0.904,
+    "Precision": 0.9318,
+    "Recall": 0.9162,
+    "F1_Score": 0.924,
+    "ROC_AUC": 0.9579
+  },
+  "lr_enhanced": {
+    "Model": "LR+Poly (Tuned)",
+    "Accuracy": 0.9087,
+    "Precision": 0.9199,
+    "Recall": 0.9382,
+    "F1_Score": 0.929,
+    "ROC_AUC": 0.9721,
+    "MCC": 0.8014,
+    "TNR": 0.8569,
+    "FPR": 0.1431,
+    "FP_Cost_GBP": 3276000,
+    "Train_F1": 0.9396,
+    "Overfit_Gap": 0.0107,
+    "Overfit_Label": "good fit"
+  },
+  "dt_enhanced": {
+    "Model": "Decision Tree (Tuned)",
+    "Accuracy": 0.904,
+    "Precision": 0.9318,
+    "Recall": 0.9162,
+    "F1_Score": 0.924,
+    "ROC_AUC": 0.9579,
+    "MCC": 0.794,
+    "TNR": 0.8826,
+    "FPR": 0.1174,
+    "FP_Cost_GBP": 2688000,
+    "Train_F1": 0.9311,
+    "Overfit_Gap": 0.0071,
+    "Overfit_Label": "good fit"
+  }
+}

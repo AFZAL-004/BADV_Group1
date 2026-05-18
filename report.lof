@@ -1,0 +1,24 @@
+\contentsline {figure}{\numberline {1}{\ignorespaces Class distribution and load factor by profitability class. Profitable routes have noticeably higher average load factors, which aligned with our initial hypothesis.}}{5}{figure.caption.2}%
+\contentsline {figure}{\numberline {2}{\ignorespaces Outlier detection using IQR method across continuous features. Red points indicate values beyond 1.5$\times $IQR from quartile boundaries.}}{6}{figure.caption.3}%
+\contentsline {figure}{\numberline {3}{\ignorespaces Distribution of three skewed features before (left) and after (right) \texttt {log1p} transformation. The transformation brings each closer to a symmetric bell shape.}}{8}{figure.caption.4}%
+\contentsline {figure}{\numberline {4}{\ignorespaces Numerical feature distributions by profitability class (0 = loss-making, 1 = profitable). Load factor and price per km show the clearest separation.}}{9}{figure.caption.5}%
+\contentsline {figure}{\numberline {5}{\ignorespaces Profitability rate by season. Peak routes are considerably more likely to be profitable.}}{9}{figure.caption.6}%
+\contentsline {figure}{\numberline {6}{\ignorespaces Pearson correlation heatmap. Features are ordered by hierarchical clustering. \texttt {Load\_Factor} and \texttt {price\_per\_km} show the strongest correlations with the binary target.}}{10}{figure.caption.7}%
+\contentsline {figure}{\numberline {7}{\ignorespaces PCA 2D projection coloured by profitability class. The partial but incomplete separation indicates non-linear decision boundaries are needed.}}{11}{figure.caption.8}%
+\contentsline {figure}{\numberline {8}{\ignorespaces Kernel density estimate of load factor by class. The distributions overlap substantially, reinforcing the need for a multi-feature classifier.}}{11}{figure.caption.9}%
+\contentsline {figure}{\numberline {9}{\ignorespaces Tuned Decision Tree (depth 7, Gokulkrishna) -- first three levels visible. \texttt {Load\_Factor} appears as the dominant root split.}}{14}{figure.caption.12}%
+\contentsline {figure}{\numberline {10}{\ignorespaces Random Forest -- confusion matrix and ROC curve on the test set.}}{15}{figure.caption.14}%
+\contentsline {figure}{\numberline {11}{\ignorespaces Random Forest -- learning curve. Validation F1 converges to training F1 with sufficient data.}}{16}{figure.caption.15}%
+\contentsline {figure}{\numberline {12}{\ignorespaces Random Forest -- permutation importance on the test set (mean $\pm $ std over 30 repeats).}}{16}{figure.caption.16}%
+\contentsline {figure}{\numberline {13}{\ignorespaces Tuned Decision Tree (Joel) -- entropy criterion, max depth 7.}}{17}{figure.caption.17}%
+\contentsline {figure}{\numberline {14}{\ignorespaces XGBoost -- confusion matrix and ROC curve on the test set.}}{18}{figure.caption.19}%
+\contentsline {figure}{\numberline {15}{\ignorespaces XGBoost -- training and validation log-loss per boosting round. Both curves converge with no sign of overfitting beyond round 150.}}{18}{figure.caption.20}%
+\contentsline {figure}{\numberline {16}{\ignorespaces SVM -- confusion matrix and ROC curve on the test set. Note the high TNR (0.923) -- the SVM correctly rejects loss-making routes more often than any other primary model.}}{20}{figure.caption.22}%
+\contentsline {figure}{\numberline {17}{\ignorespaces SVM -- learning curve. Train and test F1 converge tightly, confirming the absence of overfitting.}}{21}{figure.caption.23}%
+\contentsline {figure}{\numberline {18}{\ignorespaces LR + Polynomial Features -- confusion matrix and ROC curve on the test set.}}{22}{figure.caption.25}%
+\contentsline {figure}{\numberline {19}{\ignorespaces LR + Polynomial Features -- learning curve. The tight train/val gap confirms the regularisation is working.}}{23}{figure.caption.26}%
+\contentsline {figure}{\numberline {20}{\ignorespaces MLP -- confusion matrix and ROC curve on the test set.}}{24}{figure.caption.28}%
+\contentsline {figure}{\numberline {21}{\ignorespaces MLP -- training loss per epoch. The curve descends smoothly, and early stopping halts training when improvement stops.}}{25}{figure.caption.29}%
+\contentsline {figure}{\numberline {22}{\ignorespaces F1 and AUC comparison across all ten models. Primary models (dark bars) consistently outperform their Decision Tree baselines.}}{26}{figure.caption.32}%
+\contentsline {figure}{\numberline {23}{\ignorespaces MCC and overfitting gap. Negative overfit gaps (SVM, MLP) indicate the models generalise at least as well to unseen data as to training data.}}{27}{figure.caption.33}%
+\contentsline {figure}{\numberline {24}{\ignorespaces Business cost comparison and per-member improvement over the Decision Tree baseline.}}{27}{figure.caption.34}%

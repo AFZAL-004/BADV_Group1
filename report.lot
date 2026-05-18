@@ -1,0 +1,13 @@
+\contentsline {table}{\numberline {1}{\ignorespaces CRISP-DM phase mapping}}{2}{table.caption.1}%
+\contentsline {table}{\numberline {2}{\ignorespaces Data dictionary -- selected input features}}{3}{table.2}%
+\contentsline {table}{\numberline {3}{\ignorespaces Final feature summary after preprocessing}}{11}{table.3}%
+\contentsline {table}{\numberline {4}{\ignorespaces Dataset partition sizes}}{13}{table.caption.10}%
+\contentsline {table}{\numberline {5}{\ignorespaces Model assignments by group member}}{13}{table.caption.11}%
+\contentsline {table}{\numberline {6}{\ignorespaces Random Forest -- test set metrics}}{15}{table.caption.13}%
+\contentsline {table}{\numberline {7}{\ignorespaces XGBoost -- test set metrics}}{18}{table.caption.18}%
+\contentsline {table}{\numberline {8}{\ignorespaces SVM -- test set metrics}}{20}{table.caption.21}%
+\contentsline {table}{\numberline {9}{\ignorespaces Logistic Regression + Polynomial Features -- test set metrics}}{22}{table.caption.24}%
+\contentsline {table}{\numberline {10}{\ignorespaces MLP -- test set metrics}}{24}{table.caption.27}%
+\contentsline {table}{\numberline {11}{\ignorespaces 5-fold cross-validation F1 scores (training partition, tuned models)}}{26}{table.caption.30}%
+\contentsline {table}{\numberline {12}{\ignorespaces Full model comparison on held-out test set}}{26}{table.caption.31}%
+\contentsline {table}{\numberline {13}{\ignorespaces Author contribution statement}}{30}{table.caption.39}%

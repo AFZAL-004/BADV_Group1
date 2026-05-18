@@ -18,8 +18,11 @@ delay_flag,int64,No (binary/ordinal/OHE),None — pre-flight observable,Engineer
 flight_month,int32,Yes,None — pre-flight observable,Engineered
 is_weekend,int64,No (binary/ordinal/OHE),None — pre-flight observable,Engineered
 is_narrow_body,int64,No (binary/ordinal/OHE),None — pre-flight observable,Engineered
+load_revenue_ratio,float64,Yes,None — pre-flight observable,Engineered
 Season_Ordinal,int64,No (binary/ordinal/OHE),None — pre-flight observable,Engineered
 Demand_Ordinal,int64,No (binary/ordinal/OHE),None — pre-flight observable,Engineered
+season_sin,float64,Yes,None — pre-flight observable,Engineered
+season_cos,float64,Yes,None — pre-flight observable,Engineered
 Route_Category_Medium Haul,bool,No (binary/ordinal/OHE),None — pre-flight observable,Original
 Route_Category_Short Haul,bool,No (binary/ordinal/OHE),None — pre-flight observable,Original
 Alliance_OneWorld,bool,No (binary/ordinal/OHE),None — pre-flight observable,Original

@@ -1,0 +1,214 @@
+\relax 
+\providecommand\hyper@newdestlabel[2]{}
+\providecommand\HyField@AuxAddToFields[1]{}
+\providecommand\HyField@AuxAddToCoFields[2]{}
+\@writefile{toc}{\contentsline {section}{Executive Summary}{i}{Doc-Start}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {1}Introduction}{1}{section.1}\protected@file@percent }
+\newlabel{sec:intro}{{1}{1}{Introduction}{section.1}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {1.1}Business context and motivation}{1}{subsection.1.1}\protected@file@percent }
+\newlabel{subsec:context}{{1.1}{1}{Business context and motivation}{subsection.1.1}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {1.2}Problem statement}{1}{subsection.1.2}\protected@file@percent }
+\newlabel{subsec:problem}{{1.2}{1}{Problem statement}{subsection.1.2}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {1.3}Research questions}{1}{subsection.1.3}\protected@file@percent }
+\newlabel{subsec:rq}{{1.3}{1}{Research questions}{subsection.1.3}{}}
+\citation{wirth2000crisp}
+\citation{faheem2024kaggle}
+\@writefile{toc}{\contentsline {subsection}{\numberline {1.4}Assumptions}{2}{subsection.1.4}\protected@file@percent }
+\newlabel{subsec:assumptions}{{1.4}{2}{Assumptions}{subsection.1.4}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {1.5}CRISP-DM methodology}{2}{subsection.1.5}\protected@file@percent }
+\newlabel{subsec:crispdm}{{1.5}{2}{CRISP-DM methodology}{subsection.1.5}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {1}{\ignorespaces CRISP-DM phase mapping}}{2}{table.caption.1}\protected@file@percent }
+\providecommand*\caption@xref[2]{\@setref\relax\@undefined{#1}}
+\newlabel{tab:crispdm}{{1}{2}{CRISP-DM phase mapping}{table.caption.1}{}}
+\gdef \LT@i {\LT@entry 
+    {1}{120.12054pt}\LT@entry 
+    {1}{63.21504pt}\LT@entry 
+    {1}{211.16928pt}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {1.6}Dataset overview}{3}{subsection.1.6}\protected@file@percent }
+\newlabel{subsec:dataset}{{1.6}{3}{Dataset overview}{subsection.1.6}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {1.6.1}Source and provenance}{3}{subsubsection.1.6.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {1.6.2}Data dictionary}{3}{subsubsection.1.6.2}\protected@file@percent }
+\newlabel{tab:datadict}{{2}{3}{Data dictionary}{table.2}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {2}{\ignorespaces Data dictionary -- selected input features}}{3}{table.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {2}Data Understanding, Pre-Processing, and Exploration}{4}{section.2}\protected@file@percent }
+\newlabel{sec:data}{{2}{4}{Data Understanding, Pre-Processing, and Exploration}{section.2}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.1}Initial data inspection}{4}{subsection.2.1}\protected@file@percent }
+\newlabel{subsec:inspection}{{2.1}{4}{Initial data inspection}{subsection.2.1}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {1}{\ignorespaces Class distribution and load factor by profitability class. Profitable routes have noticeably higher average load factors, which aligned with our initial hypothesis.}}{5}{figure.caption.2}\protected@file@percent }
+\newlabel{fig:class_load}{{1}{5}{Class distribution and load factor by profitability class. Profitable routes have noticeably higher average load factors, which aligned with our initial hypothesis}{figure.caption.2}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.2}Leakage removal}{5}{subsection.2.2}\protected@file@percent }
+\newlabel{subsec:leakage}{{2.2}{5}{Leakage removal}{subsection.2.2}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.3}Outlier detection and handling}{5}{subsection.2.3}\protected@file@percent }
+\newlabel{subsec:outliers}{{2.3}{5}{Outlier detection and handling}{subsection.2.3}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {2}{\ignorespaces Outlier detection using IQR method across continuous features. Red points indicate values beyond 1.5$\times $IQR from quartile boundaries.}}{6}{figure.caption.3}\protected@file@percent }
+\newlabel{fig:outliers}{{2}{6}{Outlier detection using IQR method across continuous features. Red points indicate values beyond 1.5$\times $IQR from quartile boundaries}{figure.caption.3}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.4}Feature engineering}{6}{subsection.2.4}\protected@file@percent }
+\newlabel{subsec:feateng}{{2.4}{6}{Feature engineering}{subsection.2.4}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {3}{\ignorespaces Distribution of three skewed features before (left) and after (right) \texttt  {log1p} transformation. The transformation brings each closer to a symmetric bell shape.}}{8}{figure.caption.4}\protected@file@percent }
+\newlabel{fig:log1p}{{3}{8}{Distribution of three skewed features before (left) and after (right) \texttt {log1p} transformation. The transformation brings each closer to a symmetric bell shape}{figure.caption.4}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.5}Exploratory data analysis}{8}{subsection.2.5}\protected@file@percent }
+\newlabel{subsec:eda}{{2.5}{8}{Exploratory data analysis}{subsection.2.5}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {2.5.1}Numerical feature distributions by class}{8}{subsubsection.2.5.1}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {4}{\ignorespaces Numerical feature distributions by profitability class (0 = loss-making, 1 = profitable). Load factor and price per km show the clearest separation.}}{9}{figure.caption.5}\protected@file@percent }
+\newlabel{fig:boxplots}{{4}{9}{Numerical feature distributions by profitability class (0 = loss-making, 1 = profitable). Load factor and price per km show the clearest separation}{figure.caption.5}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {2.5.2}Seasonal patterns}{9}{subsubsection.2.5.2}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {5}{\ignorespaces Profitability rate by season. Peak routes are considerably more likely to be profitable.}}{9}{figure.caption.6}\protected@file@percent }
+\newlabel{fig:season}{{5}{9}{Profitability rate by season. Peak routes are considerably more likely to be profitable}{figure.caption.6}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {2.5.3}Correlation structure}{9}{subsubsection.2.5.3}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {6}{\ignorespaces Pearson correlation heatmap. Features are ordered by hierarchical clustering. \texttt  {Load\_Factor} and \texttt  {price\_per\_km} show the strongest correlations with the binary target.}}{10}{figure.caption.7}\protected@file@percent }
+\newlabel{fig:correlation}{{6}{10}{Pearson correlation heatmap. Features are ordered by hierarchical clustering. \texttt {Load\_Factor} and \texttt {price\_per\_km} show the strongest correlations with the binary target}{figure.caption.7}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {2.5.4}PCA projection}{10}{subsubsection.2.5.4}\protected@file@percent }
+\gdef \LT@ii {\LT@entry 
+    {1}{131.50148pt}\LT@entry 
+    {1}{57.52458pt}\LT@entry 
+    {1}{57.52458pt}\LT@entry 
+    {1}{159.95424pt}}
+\@writefile{lof}{\contentsline {figure}{\numberline {7}{\ignorespaces PCA 2D projection coloured by profitability class. The partial but incomplete separation indicates non-linear decision boundaries are needed.}}{11}{figure.caption.8}\protected@file@percent }
+\newlabel{fig:pca}{{7}{11}{PCA 2D projection coloured by profitability class. The partial but incomplete separation indicates non-linear decision boundaries are needed}{figure.caption.8}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {2.5.5}Load factor density by class}{11}{subsubsection.2.5.5}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {8}{\ignorespaces Kernel density estimate of load factor by class. The distributions overlap substantially, reinforcing the need for a multi-feature classifier.}}{11}{figure.caption.9}\protected@file@percent }
+\newlabel{fig:density}{{8}{11}{Kernel density estimate of load factor by class. The distributions overlap substantially, reinforcing the need for a multi-feature classifier}{figure.caption.9}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.6}Feature summary}{11}{subsection.2.6}\protected@file@percent }
+\newlabel{subsec:featuresummary}{{2.6}{11}{Feature summary}{subsection.2.6}{}}
+\newlabel{tab:featuresummary}{{3}{11}{Feature summary}{table.3}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {3}{\ignorespaces Final feature summary after preprocessing}}{11}{table.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {2.7}Data splitting and scaling}{12}{subsection.2.7}\protected@file@percent }
+\newlabel{subsec:splitting}{{2.7}{12}{Data splitting and scaling}{subsection.2.7}{}}
+\citation{breiman2001random}
+\@writefile{lot}{\contentsline {table}{\numberline {4}{\ignorespaces Dataset partition sizes}}{13}{table.caption.10}\protected@file@percent }
+\newlabel{tab:splits}{{4}{13}{Dataset partition sizes}{table.caption.10}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {3}Modelling}{13}{section.3}\protected@file@percent }
+\newlabel{sec:modelling}{{3}{13}{Modelling}{section.3}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {5}{\ignorespaces Model assignments by group member}}{13}{table.caption.11}\protected@file@percent }
+\newlabel{tab:modelsummary}{{5}{13}{Model assignments by group member}{table.caption.11}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.1}Random Forest -- Gokulkrishna Santhoshkumar}{13}{subsection.3.1}\protected@file@percent }
+\newlabel{subsec:rf}{{3.1}{13}{Random Forest -- Gokulkrishna Santhoshkumar}{subsection.3.1}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.1.1}Algorithm overview}{13}{subsubsection.3.1.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.1.2}Decision Tree baseline}{14}{subsubsection.3.1.2}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {9}{\ignorespaces Tuned Decision Tree (depth 7, Gokulkrishna) -- first three levels visible. \texttt  {Load\_Factor} appears as the dominant root split.}}{14}{figure.caption.12}\protected@file@percent }
+\newlabel{fig:dt_tree_rf}{{9}{14}{Tuned Decision Tree (depth 7, Gokulkrishna) -- first three levels visible. \texttt {Load\_Factor} appears as the dominant root split}{figure.caption.12}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.1.3}Hyperparameter tuning}{14}{subsubsection.3.1.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.1.4}Results}{15}{subsubsection.3.1.4}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {6}{\ignorespaces Random Forest -- test set metrics}}{15}{table.caption.13}\protected@file@percent }
+\newlabel{tab:rf_results}{{6}{15}{Random Forest -- test set metrics}{table.caption.13}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {10}{\ignorespaces Random Forest -- confusion matrix and ROC curve on the test set.}}{15}{figure.caption.14}\protected@file@percent }
+\newlabel{fig:rf_cm_roc}{{10}{15}{Random Forest -- confusion matrix and ROC curve on the test set}{figure.caption.14}{}}
+\citation{chen2016xgboost}
+\@writefile{lof}{\contentsline {figure}{\numberline {11}{\ignorespaces Random Forest -- learning curve. Validation F1 converges to training F1 with sufficient data.}}{16}{figure.caption.15}\protected@file@percent }
+\newlabel{fig:rf_learning}{{11}{16}{Random Forest -- learning curve. Validation F1 converges to training F1 with sufficient data}{figure.caption.15}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {12}{\ignorespaces Random Forest -- permutation importance on the test set (mean $\pm $ std over 30 repeats).}}{16}{figure.caption.16}\protected@file@percent }
+\newlabel{fig:rf_perm}{{12}{16}{Random Forest -- permutation importance on the test set (mean $\pm $ std over 30 repeats)}{figure.caption.16}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.2}XGBoost -- Joel Jolly}{16}{subsection.3.2}\protected@file@percent }
+\newlabel{subsec:xgb}{{3.2}{16}{XGBoost -- Joel Jolly}{subsection.3.2}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.2.1}Algorithm overview}{16}{subsubsection.3.2.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.2.2}Decision Tree baseline}{17}{subsubsection.3.2.2}\protected@file@percent }
+\@writefile{lof}{\contentsline {figure}{\numberline {13}{\ignorespaces Tuned Decision Tree (Joel) -- entropy criterion, max depth 7.}}{17}{figure.caption.17}\protected@file@percent }
+\newlabel{fig:dt_tree_xgb}{{13}{17}{Tuned Decision Tree (Joel) -- entropy criterion, max depth 7}{figure.caption.17}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.2.3}Hyperparameter tuning}{17}{subsubsection.3.2.3}\protected@file@percent }
+\citation{cortes1995support}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.2.4}Results}{18}{subsubsection.3.2.4}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {7}{\ignorespaces XGBoost -- test set metrics}}{18}{table.caption.18}\protected@file@percent }
+\newlabel{tab:xgb_results}{{7}{18}{XGBoost -- test set metrics}{table.caption.18}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {14}{\ignorespaces XGBoost -- confusion matrix and ROC curve on the test set.}}{18}{figure.caption.19}\protected@file@percent }
+\newlabel{fig:xgb_cm_roc}{{14}{18}{XGBoost -- confusion matrix and ROC curve on the test set}{figure.caption.19}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {15}{\ignorespaces XGBoost -- training and validation log-loss per boosting round. Both curves converge with no sign of overfitting beyond round 150.}}{18}{figure.caption.20}\protected@file@percent }
+\newlabel{fig:xgb_logloss}{{15}{18}{XGBoost -- training and validation log-loss per boosting round. Both curves converge with no sign of overfitting beyond round 150}{figure.caption.20}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.3}Support Vector Machine -- Apprajit Manikandan}{19}{subsection.3.3}\protected@file@percent }
+\newlabel{subsec:svm}{{3.3}{19}{Support Vector Machine -- Apprajit Manikandan}{subsection.3.3}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.3.1}Algorithm overview}{19}{subsubsection.3.3.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.3.2}Decision Tree baseline}{19}{subsubsection.3.3.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.3.3}Hyperparameter tuning}{19}{subsubsection.3.3.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.3.4}Results}{20}{subsubsection.3.3.4}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {8}{\ignorespaces SVM -- test set metrics}}{20}{table.caption.21}\protected@file@percent }
+\newlabel{tab:svm_results}{{8}{20}{SVM -- test set metrics}{table.caption.21}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {16}{\ignorespaces SVM -- confusion matrix and ROC curve on the test set. Note the high TNR (0.923) -- the SVM correctly rejects loss-making routes more often than any other primary model.}}{20}{figure.caption.22}\protected@file@percent }
+\newlabel{fig:svm_cm_roc}{{16}{20}{SVM -- confusion matrix and ROC curve on the test set. Note the high TNR (0.923) -- the SVM correctly rejects loss-making routes more often than any other primary model}{figure.caption.22}{}}
+\citation{hosmer2013applied}
+\@writefile{lof}{\contentsline {figure}{\numberline {17}{\ignorespaces SVM -- learning curve. Train and test F1 converge tightly, confirming the absence of overfitting.}}{21}{figure.caption.23}\protected@file@percent }
+\newlabel{fig:svm_learning}{{17}{21}{SVM -- learning curve. Train and test F1 converge tightly, confirming the absence of overfitting}{figure.caption.23}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.4}Logistic Regression with Polynomial Features -- Afzal Hakkim}{21}{subsection.3.4}\protected@file@percent }
+\newlabel{subsec:lr}{{3.4}{21}{Logistic Regression with Polynomial Features -- Afzal Hakkim}{subsection.3.4}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.4.1}Algorithm overview}{21}{subsubsection.3.4.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.4.2}Decision Tree baseline}{21}{subsubsection.3.4.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.4.3}Hyperparameter tuning}{21}{subsubsection.3.4.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.4.4}Results}{22}{subsubsection.3.4.4}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {9}{\ignorespaces Logistic Regression + Polynomial Features -- test set metrics}}{22}{table.caption.24}\protected@file@percent }
+\newlabel{tab:lr_results}{{9}{22}{Logistic Regression + Polynomial Features -- test set metrics}{table.caption.24}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {18}{\ignorespaces LR + Polynomial Features -- confusion matrix and ROC curve on the test set.}}{22}{figure.caption.25}\protected@file@percent }
+\newlabel{fig:lr_cm_roc}{{18}{22}{LR + Polynomial Features -- confusion matrix and ROC curve on the test set}{figure.caption.25}{}}
+\citation{goodfellow2016deep}
+\@writefile{lof}{\contentsline {figure}{\numberline {19}{\ignorespaces LR + Polynomial Features -- learning curve. The tight train/val gap confirms the regularisation is working.}}{23}{figure.caption.26}\protected@file@percent }
+\newlabel{fig:lr_learning}{{19}{23}{LR + Polynomial Features -- learning curve. The tight train/val gap confirms the regularisation is working}{figure.caption.26}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {3.5}Multi-Layer Perceptron -- Vino Mohandas Nedumpully}{23}{subsection.3.5}\protected@file@percent }
+\newlabel{subsec:mlp}{{3.5}{23}{Multi-Layer Perceptron -- Vino Mohandas Nedumpully}{subsection.3.5}{}}
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.5.1}Algorithm overview}{23}{subsubsection.3.5.1}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.5.2}Decision Tree baseline}{23}{subsubsection.3.5.2}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.5.3}Hyperparameter tuning}{23}{subsubsection.3.5.3}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsubsection}{\numberline {3.5.4}Results}{24}{subsubsection.3.5.4}\protected@file@percent }
+\@writefile{lot}{\contentsline {table}{\numberline {10}{\ignorespaces MLP -- test set metrics}}{24}{table.caption.27}\protected@file@percent }
+\newlabel{tab:mlp_results}{{10}{24}{MLP -- test set metrics}{table.caption.27}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {20}{\ignorespaces MLP -- confusion matrix and ROC curve on the test set.}}{24}{figure.caption.28}\protected@file@percent }
+\newlabel{fig:mlp_cm_roc}{{20}{24}{MLP -- confusion matrix and ROC curve on the test set}{figure.caption.28}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {21}{\ignorespaces MLP -- training loss per epoch. The curve descends smoothly, and early stopping halts training when improvement stops.}}{25}{figure.caption.29}\protected@file@percent }
+\newlabel{fig:mlp_loss}{{21}{25}{MLP -- training loss per epoch. The curve descends smoothly, and early stopping halts training when improvement stops}{figure.caption.29}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {4}Performance Evaluation}{25}{section.4}\protected@file@percent }
+\newlabel{sec:evaluation}{{4}{25}{Performance Evaluation}{section.4}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.1}Evaluation metric justification}{25}{subsection.4.1}\protected@file@percent }
+\newlabel{subsec:metrics}{{4.1}{25}{Evaluation metric justification}{subsection.4.1}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.2}Cross-validation summary}{25}{subsection.4.2}\protected@file@percent }
+\newlabel{subsec:cvsummary}{{4.2}{25}{Cross-validation summary}{subsection.4.2}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {11}{\ignorespaces 5-fold cross-validation F1 scores (training partition, tuned models)}}{26}{table.caption.30}\protected@file@percent }
+\newlabel{tab:cvcomparison}{{11}{26}{5-fold cross-validation F1 scores (training partition, tuned models)}{table.caption.30}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.3}Cross-model comparison}{26}{subsection.4.3}\protected@file@percent }
+\newlabel{subsec:comparison}{{4.3}{26}{Cross-model comparison}{subsection.4.3}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {12}{\ignorespaces Full model comparison on held-out test set}}{26}{table.caption.31}\protected@file@percent }
+\newlabel{tab:fullcomparison}{{12}{26}{Full model comparison on held-out test set}{table.caption.31}{}}
+\newlabel{fig:group_f1}{{22a}{26}{F1-score comparison}{figure.caption.32}{}}
+\newlabel{sub@fig:group_f1}{{a}{26}{F1-score comparison}{figure.caption.32}{}}
+\newlabel{fig:group_auc}{{22b}{26}{ROC-AUC comparison}{figure.caption.32}{}}
+\newlabel{sub@fig:group_auc}{{b}{26}{ROC-AUC comparison}{figure.caption.32}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {22}{\ignorespaces F1 and AUC comparison across all ten models. Primary models (dark bars) consistently outperform their Decision Tree baselines.}}{26}{figure.caption.32}\protected@file@percent }
+\newlabel{fig:group_mcc}{{23a}{27}{MCC comparison}{figure.caption.33}{}}
+\newlabel{sub@fig:group_mcc}{{a}{27}{MCC comparison}{figure.caption.33}{}}
+\newlabel{fig:group_overfit}{{23b}{27}{Overfitting gap (train F1 $-$ test F1)}{figure.caption.33}{}}
+\newlabel{sub@fig:group_overfit}{{b}{27}{Overfitting gap (train F1 $-$ test F1)}{figure.caption.33}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {23}{\ignorespaces MCC and overfitting gap. Negative overfit gaps (SVM, MLP) indicate the models generalise at least as well to unseen data as to training data.}}{27}{figure.caption.33}\protected@file@percent }
+\newlabel{fig:group_cost}{{24a}{27}{Estimated FP cost on test set}{figure.caption.34}{}}
+\newlabel{sub@fig:group_cost}{{a}{27}{Estimated FP cost on test set}{figure.caption.34}{}}
+\newlabel{fig:group_delta}{{24b}{27}{F1 improvement over DT baseline}{figure.caption.34}{}}
+\newlabel{sub@fig:group_delta}{{b}{27}{F1 improvement over DT baseline}{figure.caption.34}{}}
+\@writefile{lof}{\contentsline {figure}{\numberline {24}{\ignorespaces Business cost comparison and per-member improvement over the Decision Tree baseline.}}{27}{figure.caption.34}\protected@file@percent }
+\@writefile{toc}{\contentsline {subsection}{\numberline {4.4}Key observations from the comparison}{27}{subsection.4.4}\protected@file@percent }
+\newlabel{subsec:observations}{{4.4}{27}{Key observations from the comparison}{subsection.4.4}{}}
+\@writefile{toc}{\contentsline {paragraph}{All primary models beat their baselines.}{27}{paragraph*.35}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{The F1 range across primary models is narrow.}{27}{paragraph*.36}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Model selection depends on the business objective.}{27}{paragraph*.37}\protected@file@percent }
+\@writefile{toc}{\contentsline {paragraph}{Overfitting is controlled across the board.}{27}{paragraph*.38}\protected@file@percent }
+\@writefile{toc}{\contentsline {section}{\numberline {5}Discussion, Conclusions, and Recommendations}{28}{section.5}\protected@file@percent }
+\newlabel{sec:discussion}{{5}{28}{Discussion, Conclusions, and Recommendations}{section.5}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.1}What the models tell us about route profitability}{28}{subsection.5.1}\protected@file@percent }
+\newlabel{subsec:insights}{{5.1}{28}{What the models tell us about route profitability}{subsection.5.1}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.2}Business recommendations}{28}{subsection.5.2}\protected@file@percent }
+\newlabel{subsec:recommendations}{{5.2}{28}{Business recommendations}{subsection.5.2}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.3}Limitations}{29}{subsection.5.3}\protected@file@percent }
+\newlabel{subsec:limitations}{{5.3}{29}{Limitations}{subsection.5.3}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.4}Future work}{29}{subsection.5.4}\protected@file@percent }
+\newlabel{subsec:future}{{5.4}{29}{Future work}{subsection.5.4}{}}
+\@writefile{toc}{\contentsline {subsection}{\numberline {5.5}Conclusion}{29}{subsection.5.5}\protected@file@percent }
+\newlabel{subsec:conclusion}{{5.5}{29}{Conclusion}{subsection.5.5}{}}
+\@writefile{toc}{\contentsline {section}{\numberline {6}Author Contribution Statement}{30}{section.6}\protected@file@percent }
+\newlabel{sec:contributions}{{6}{30}{Author Contribution Statement}{section.6}{}}
+\@writefile{lot}{\contentsline {table}{\numberline {13}{\ignorespaces Author contribution statement}}{30}{table.caption.39}\protected@file@percent }
+\newlabel{tab:contributions}{{13}{30}{Author contribution statement}{table.caption.39}{}}
+\@writefile{toc}{\contentsline {section}{Pending Figures}{31}{table.caption.39}\protected@file@percent }
+\bibstyle{unsrt}
+\bibdata{references}
+\bibcite{faheem2024kaggle}{{1}{}{{}}{{}}}
+\bibcite{wirth2000crisp}{{2}{}{{}}{{}}}
+\bibcite{breiman2001random}{{3}{}{{}}{{}}}
+\bibcite{chen2016xgboost}{{4}{}{{}}{{}}}
+\bibcite{cortes1995support}{{5}{}{{}}{{}}}
+\bibcite{hosmer2013applied}{{6}{}{{}}{{}}}
+\bibcite{goodfellow2016deep}{{7}{}{{}}{{}}}
+\providecommand\NAT@force@numbers{}\NAT@force@numbers
+\gdef \@abspage@last{40}

@@ -1,0 +1,83 @@
+{
+  "model_name": "XGBoost",
+  "notebook": "03_Member2",
+  "best_params_primary": {
+    "subsample": 0.7,
+    "scale_pos_weight": 1,
+    "reg_lambda": 1,
+    "reg_alpha": 0.1,
+    "n_estimators": 200,
+    "max_depth": 7,
+    "learning_rate": 0.05,
+    "colsample_bytree": 1.0
+  },
+  "best_params_dt": {
+    "class_weight": null,
+    "criterion": "entropy",
+    "max_depth": 7,
+    "min_samples_leaf": 15,
+    "min_samples_split": 2
+  },
+  "val_metrics_primary": {
+    "Model": "XGB-val",
+    "Accuracy": 0.912,
+    "Precision": 0.9327,
+    "Recall": 0.9288,
+    "F1_Score": 0.9307,
+    "ROC_AUC": 0.9757
+  },
+  "test_metrics_primary": {
+    "Model": "XGB-test",
+    "Accuracy": 0.916,
+    "Precision": 0.9313,
+    "Recall": 0.9372,
+    "F1_Score": 0.9342,
+    "ROC_AUC": 0.9774
+  },
+  "val_metrics_dt": {
+    "Model": "DT-val",
+    "Accuracy": 0.8947,
+    "Precision": 0.919,
+    "Recall": 0.9152,
+    "F1_Score": 0.9171,
+    "ROC_AUC": 0.9625
+  },
+  "test_metrics_dt": {
+    "Model": "DT-test",
+    "Accuracy": 0.9013,
+    "Precision": 0.927,
+    "Recall": 0.9173,
+    "F1_Score": 0.9221,
+    "ROC_AUC": 0.9581
+  },
+  "xgb_enhanced": {
+    "Model": "XGBoost (Tuned)",
+    "Accuracy": 0.916,
+    "Precision": 0.9313,
+    "Recall": 0.9372,
+    "F1_Score": 0.9342,
+    "ROC_AUC": 0.9774,
+    "MCC": 0.818,
+    "TNR": 0.8789,
+    "FPR": 0.1211,
+    "FP_Cost_GBP": 2772000,
+    "Train_F1": 0.9825,
+    "Overfit_Gap": 0.0482,
+    "Overfit_Label": "good fit"
+  },
+  "dt_enhanced": {
+    "Model": "Decision Tree (Tuned)",
+    "Accuracy": 0.9013,
+    "Precision": 0.927,
+    "Recall": 0.9173,
+    "F1_Score": 0.9221,
+    "ROC_AUC": 0.9581,
+    "MCC": 0.7877,
+    "TNR": 0.8734,
+    "FPR": 0.1266,
+    "FP_Cost_GBP": 2898000,
+    "Train_F1": 0.9311,
+    "Overfit_Gap": 0.009,
+    "Overfit_Label": "good fit"
+  }
+}

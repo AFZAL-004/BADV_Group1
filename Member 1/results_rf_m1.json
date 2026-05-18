@@ -1,0 +1,80 @@
+{
+  "model_name": "Random Forest",
+  "notebook": "02_Member1",
+  "best_params_primary": {
+    "class_weight": null,
+    "max_depth": 15,
+    "min_samples_leaf": 5,
+    "min_samples_split": 5,
+    "n_estimators": 200
+  },
+  "best_params_dt": {
+    "class_weight": "balanced",
+    "criterion": "gini",
+    "max_depth": 7,
+    "min_samples_leaf": 20,
+    "min_samples_split": 5
+  },
+  "val_metrics_primary": {
+    "Model": "RF-val",
+    "Accuracy": 0.9053,
+    "Precision": 0.9212,
+    "Recall": 0.9309,
+    "F1_Score": 0.926,
+    "ROC_AUC": 0.9723
+  },
+  "test_metrics_primary": {
+    "Model": "RF-test",
+    "Accuracy": 0.9167,
+    "Precision": 0.9359,
+    "Recall": 0.933,
+    "F1_Score": 0.9345,
+    "ROC_AUC": 0.977
+  },
+  "val_metrics_dt": {
+    "Model": "DT-val",
+    "Accuracy": 0.89,
+    "Precision": 0.9478,
+    "Recall": 0.8754,
+    "F1_Score": 0.9102,
+    "ROC_AUC": 0.96
+  },
+  "test_metrics_dt": {
+    "Model": "DT-test",
+    "Accuracy": 0.8893,
+    "Precision": 0.9388,
+    "Recall": 0.8838,
+    "F1_Score": 0.9105,
+    "ROC_AUC": 0.9529
+  },
+  "rf_enhanced": {
+    "Model": "Random Forest (Tuned)",
+    "Accuracy": 0.9167,
+    "Precision": 0.9359,
+    "Recall": 0.933,
+    "F1_Score": 0.9345,
+    "ROC_AUC": 0.977,
+    "MCC": 0.8201,
+    "TNR": 0.8881,
+    "FPR": 0.1119,
+    "FP_Cost_GBP": 2562000,
+    "Train_F1": 0.9641,
+    "Overfit_Gap": 0.0297,
+    "Overfit_Label": "good fit"
+  },
+  "dt_enhanced": {
+    "Model": "Decision Tree (Tuned)",
+    "Accuracy": 0.8893,
+    "Precision": 0.9388,
+    "Recall": 0.8838,
+    "F1_Score": 0.9105,
+    "ROC_AUC": 0.9529,
+    "MCC": 0.7684,
+    "TNR": 0.8991,
+    "FPR": 0.1009,
+    "FP_Cost_GBP": 2310000,
+    "Train_F1": 0.9268,
+    "Overfit_Gap": 0.0163,
+    "Overfit_Label": "good fit"
+  }
+}

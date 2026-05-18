@@ -1,0 +1,3 @@
+Model,Accuracy,Precision,Recall,F1_Score,ROC_AUC,MCC,TNR,FPR,FP_Cost_GBP,Train_F1,Overfit_Gap,Overfit_Label
+XGBoost (Tuned),0.9133,0.9301,0.934,0.9321,0.9772,0.8124,0.8771,0.1229,2814000,0.9814,0.0493,good fit
+Decision Tree (Tuned),0.9027,0.9308,0.9152,0.9229,0.9601,0.7911,0.8807,0.1193,2730000,0.931,0.0081,good fit

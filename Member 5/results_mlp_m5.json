@@ -1,0 +1,83 @@
+{
+  "model_name": "MLP",
+  "notebook": "06_Member5",
+  "best_params_primary": {
+    "solver": "adam",
+    "max_iter": 500,
+    "learning_rate_init": 0.001,
+    "hidden_layer_sizes": [
+      50
+    ],
+    "alpha": 0.1,
+    "activation": "relu"
+  },
+  "best_params_dt": {
+    "class_weight": null,
+    "criterion": "entropy",
+    "max_depth": 7,
+    "min_samples_leaf": 30,
+    "min_samples_split": 20
+  },
+  "val_metrics_primary": {
+    "Model": "MLP-val",
+    "Accuracy": 0.9027,
+    "Precision": 0.9157,
+    "Recall": 0.933,
+    "F1_Score": 0.9243,
+    "ROC_AUC": 0.9678
+  },
+  "test_metrics_primary": {
+    "Model": "MLP-test",
+    "Accuracy": 0.906,
+    "Precision": 0.9162,
+    "Recall": 0.9382,
+    "F1_Score": 0.9271,
+    "ROC_AUC": 0.9735
+  },
+  "val_metrics_dt": {
+    "Model": "DT-val",
+    "Accuracy": 0.892,
+    "Precision": 0.9268,
+    "Recall": 0.9016,
+    "F1_Score": 0.914,
+    "ROC_AUC": 0.962
+  },
+  "test_metrics_dt": {
+    "Model": "DT-test",
+    "Accuracy": 0.9013,
+    "Precision": 0.9288,
+    "Recall": 0.9152,
+    "F1_Score": 0.9219,
+    "ROC_AUC": 0.9641
+  },
+  "mlp_enhanced": {
+    "Model": "MLP (Tuned)",
+    "Accuracy": 0.906,
+    "Precision": 0.9162,
+    "Recall": 0.9382,
+    "F1_Score": 0.9271,
+    "ROC_AUC": 0.9735,
+    "MCC": 0.7954,
+    "TNR": 0.8495,
+    "FPR": 0.1505,
+    "FP_Cost_GBP": 3444000,
+    "Train_F1": 0.9524,
+    "Overfit_Gap": 0.0253,
+    "Overfit_Label": "good fit"
+  },
+  "dt_enhanced": {
+    "Model": "Decision Tree (Tuned)",
+    "Accuracy": 0.9013,
+    "Precision": 0.9288,
+    "Recall": 0.9152,
+    "F1_Score": 0.9219,
+    "ROC_AUC": 0.9641,
+    "MCC": 0.7881,
+    "TNR": 0.8771,
+    "FPR": 0.1229,
+    "FP_Cost_GBP": 2814000,
+    "Train_F1": 0.9301,
+    "Overfit_Gap": 0.0082,
+    "Overfit_Label": "good fit"
+  }
+}

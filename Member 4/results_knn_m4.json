@@ -1,0 +1,79 @@
+{
+  "model_name": "KNN",
+  "notebook": "05_Member4",
+  "best_params_primary": {
+    "knn__metric": "euclidean",
+    "knn__n_neighbors": 41,
+    "knn__weights": "uniform",
+    "pca__n_components": 25
+  },
+  "best_params_dt": {
+    "class_weight": null,
+    "criterion": "entropy",
+    "max_depth": 7,
+    "min_samples_leaf": 5,
+    "min_samples_split": 2
+  },
+  "val_metrics_primary": {
+    "Model": "KNN-val",
+    "Accuracy": 0.8427,
+    "Precision": 0.8357,
+    "Recall": 0.9372,
+    "F1_Score": 0.8835,
+    "ROC_AUC": 0.9287
+  },
+  "test_metrics_primary": {
+    "Model": "KNN-test",
+    "Accuracy": 0.8427,
+    "Precision": 0.8332,
+    "Recall": 0.9414,
+    "F1_Score": 0.884,
+    "ROC_AUC": 0.9279
+  },
+  "val_metrics_dt": {
+    "Model": "DT-val",
+    "Accuracy": 0.8907,
+    "Precision": 0.9239,
+    "Recall": 0.9026,
+    "F1_Score": 0.9131,
+    "ROC_AUC": 0.9568
+  },
+  "test_metrics_dt": {
+    "Model": "DT-test",
+    "Accuracy": 0.9013,
+    "Precision": 0.9316,
+    "Recall": 0.912,
+    "F1_Score": 0.9217,
+    "ROC_AUC": 0.9597
+  },
+  "knn_enhanced": {
+    "Model": "KNN (Tuned)",
+    "Accuracy": 0.8427,
+    "Precision": 0.8332,
+    "Recall": 0.9414,
+    "F1_Score": 0.884,
+    "ROC_AUC": 0.9279,
+    "MCC": 0.6541,
+    "TNR": 0.6697,
+    "FPR": 0.3303,
+    "FP_Cost_GBP": 7560000,
+    "Train_F1": 0.8927,
+    "Overfit_Gap": 0.0087,
+    "Overfit_Label": "good fit"
+  },
+  "dt_enhanced": {
+    "Model": "Decision Tree (Tuned)",
+    "Accuracy": 0.9013,
+    "Precision": 0.9316,
+    "Recall": 0.912,
+    "F1_Score": 0.9217,
+    "ROC_AUC": 0.9597,
+    "MCC": 0.7887,
+    "TNR": 0.8826,
+    "FPR": 0.1174,
+    "FP_Cost_GBP": 2688000,
+    "Train_F1": 0.9317,
+    "Overfit_Gap": 0.01,
+    "Overfit_Label": "good fit"
+  }
+}

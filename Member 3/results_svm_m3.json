@@ -1,0 +1,77 @@
+{
+  "model_name": "SVM RBF",
+  "notebook": "04_Member3",
+  "best_params_primary": {
+    "gamma": 0.01,
+    "C": 10
+  },
+  "best_params_dt": {
+    "class_weight": "balanced",
+    "criterion": "entropy",
+    "max_depth": 8,
+    "min_samples_leaf": 20,
+    "min_samples_split": 10
+  },
+  "val_metrics_primary": {
+    "Model": "SVM-val",
+    "Accuracy": 0.9033,
+    "Precision": 0.9441,
+    "Recall": 0.9016,
+    "F1_Score": 0.9223,
+    "ROC_AUC": 0.9697
+  },
+  "test_metrics_primary": {
+    "Model": "SVM-test",
+    "Accuracy": 0.91,
+    "Precision": 0.9447,
+    "Recall": 0.912,
+    "F1_Score": 0.9281,
+    "ROC_AUC": 0.9732
+  },
+  "val_metrics_dt": {
+    "Model": "DT-val",
+    "Accuracy": 0.8913,
+    "Precision": 0.9323,
+    "Recall": 0.8942,
+    "F1_Score": 0.9129,
+    "ROC_AUC": 0.9611
+  },
+  "test_metrics_dt": {
+    "Model": "DT-test",
+    "Accuracy": 0.89,
+    "Precision": 0.9256,
+    "Recall": 0.8995,
+    "F1_Score": 0.9124,
+    "ROC_AUC": 0.9574
+  },
+  "svm_enhanced": {
+    "Model": "SVM RBF (Tuned)",
+    "Accuracy": 0.91,
+    "Precision": 0.9447,
+    "Recall": 0.912,
+    "F1_Score": 0.9281,
+    "ROC_AUC": 0.9732,
+    "MCC": 0.8089,
+    "TNR": 0.9064,
+    "FPR": 0.0936,
+    "FP_Cost_GBP": 2142000,
+    "Train_F1": 0.94,
+    "Overfit_Gap": 0.0119,
+    "Overfit_Label": "good fit"
+  },
+  "dt_enhanced": {
+    "Model": "Decision Tree (Tuned)",
+    "Accuracy": 0.89,
+    "Precision": 0.9256,
+    "Recall": 0.8995,
+    "F1_Score": 0.9124,
+    "ROC_AUC": 0.9574,
+    "MCC": 0.7653,
+    "TNR": 0.8734,
+    "FPR": 0.1266,
+    "FP_Cost_GBP": 2898000,
+    "Train_F1": 0.9333,
+    "Overfit_Gap": 0.0209,
+    "Overfit_Label": "good fit"
+  }
+}
